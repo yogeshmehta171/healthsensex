@@ -637,13 +637,13 @@ elif page == "📊  Public Health Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
-   cols_ab = st.columns(2)
-for idx, (disease, abbr) in enumerate(list(DISEASE_ABBR.items())[:8]):
-    count = len(df[df.Disease_Type==disease]) if disease in df.Disease_Type.values else 0
-    with cols_ab[idx % 2]:
-        st.markdown(f"""
+    abbr_html = ""
+    for disease, abbr in list(DISEASE_ABBR.items())[:8]:
+        # Get case count from synthetic data
+        count = len(df[df.Disease_Type==disease]) if disease in df.Disease_Type.values else 0
+        abbr_html += f"""
         <div style="background:#07111e;border:1px solid #0f2233;border-radius:6px;
-                    padding:0.7rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;">
+                    padding:0.7rem 1rem;display:flex;align-items:center;justify-content:space-between;">
             <div>
                 <span style="font-family:'IBM Plex Mono',monospace;font-size:0.95rem;
                              color:#d4830a;font-weight:600;">{abbr}</span>
@@ -653,7 +653,12 @@ for idx, (disease, abbr) in enumerate(list(DISEASE_ABBR.items())[:8]):
                 {count:,} records
             </span>
         </div>
-        """, unsafe_allow_html=True)
+        """
+    st.markdown(f"""
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1.5rem;">
+        {abbr_html}
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
