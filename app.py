@@ -76,7 +76,7 @@ def get_ist_now():
     return datetime.utcnow() + timedelta(hours=5, minutes=30)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# GLOBAL CSS — sidebar fixed to always show dark theme
+# GLOBAL CSS
 # ─────────────────────────────────────────────────────────────────────────────
 
 st.markdown("""
@@ -85,8 +85,17 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'IBM Plex Sans', sans-serif;
-    background-color: #04080f;
+    background-color: #04080f !important;
     color: #d4dce8;
+}
+
+/* ── Main content area dark background to match sidebar ── */
+.main, .block-container, [data-testid="stAppViewContainer"], 
+[data-testid="stAppViewBlockContainer"] {
+    background-color: #04080f !important;
+}
+[data-testid="stAppViewContainer"] > .main {
+    background-color: #04080f !important;
 }
 
 /* ── Sidebar forced dark ── */
@@ -112,6 +121,20 @@ html, body, [class*="css"] {
 }
 [data-testid="stSidebar"] hr {
     border-color: #0f2233 !important;
+}
+
+/* ── Sidebar collapse button — hide the text label only ── */
+[data-testid="stSidebarCollapseButton"] button {
+    background: #070d18 !important;
+    border: 1px solid #0f2233 !important;
+    color: #d4830a !important;
+}
+[data-testid="stSidebarCollapseButton"] button span {
+    display: none !important;
+}
+[data-testid="stSidebarCollapseButton"] button svg {
+    fill: #d4830a !important;
+    color: #d4830a !important;
 }
 
 /* Input fields */
@@ -188,10 +211,6 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 ::-webkit-scrollbar-track { background: #04080f; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #d4830a; }
-[data-testid="stSidebarCollapseButton"] { display: none !important; }
-[data-testid="collapsedControl"] { display: none !important; }
-
-[data-testid="stSidebarCollapseButton"] span { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -263,7 +282,7 @@ INDIA_STATES = [
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DISEASE ABBR — Cardiac → GBS (Guillain-Barré), Orthopedic → Influenza
+# DISEASE ABBR
 # ─────────────────────────────────────────────────────────────────────────────
 
 DISEASE_ABBR = {
@@ -275,7 +294,7 @@ DISEASE_ABBR = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SYNTHETIC DATA (same as existing prototype + region info)
+# SYNTHETIC DATA
 # ─────────────────────────────────────────────────────────────────────────────
 
 @st.cache_data
@@ -286,7 +305,6 @@ def generate_data(seed=42):
     date_range  = pd.date_range("2024-01-01", "2024-12-31", freq="D")
     hosp_ids    = [f"HOSP-{str(i).zfill(3)}" for i in range(1, N_HOSPITALS+1)]
     dr_ids      = [f"DR-{str(i).zfill(4)}" for i in range(1, N_DOCTORS+1)]
-    # Cardiac replaced by GBS (Guillain-Barré), Orthopedic replaced by Influenza
     diseases    = ["Dengue", "Tuberculosis", "Malaria", "Typhoid",
                    "COVID-19", "GBS (Guillain-Barré)", "Influenza", "Cancer"]
     states      = ["Maharashtra","Delhi","Karnataka","Tamil Nadu","Uttar Pradesh",
@@ -310,7 +328,6 @@ def generate_data(seed=42):
                 })
     df = pd.DataFrame(records)
 
-    # Fraud injection
     m1 = (df.Hospital_ID=="HOSP-007")&(df.Disease_Type=="Dengue")&(df.Date>="2024-06-01")&(df.Date<="2024-06-14")
     df.loc[m1,"Daily_Billing_Amount"] *= 10
     df.loc[m1,"_fraud_label"] = "Billing Spike"
@@ -392,7 +409,6 @@ with st.sidebar:
 if page == "🏥  Hospital Registration":
     render_header("Hospital Registration System")
 
-    # Stats row
     conn = get_conn()
     total_reg = pd.read_sql("SELECT COUNT(*) as c FROM hospitals", conn).iloc[0,0]
     verified  = pd.read_sql("SELECT COUNT(*) as c FROM hospitals WHERE status='Verified'", conn).iloc[0,0]
@@ -407,7 +423,6 @@ if page == "🏥  Hospital Registration":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Info banner
     st.markdown("""
     <div style="
         background: #07111e; border: 1px solid #0f2233;
@@ -426,7 +441,6 @@ if page == "🏥  Hospital Registration":
 
     tab1, tab2 = st.tabs(["📝  New Registration", "🔍  Verify / Check Status"])
 
-    # ── TAB 1: Registration Form ──────────────────────────────────────────────
     with tab1:
         st.markdown("""
         <div style="font-family:'Source Serif 4',serif;font-size:1.2rem;color:#a8c8e8;
@@ -531,7 +545,6 @@ if page == "🏥  Hospital Registration":
                 except sqlite3.IntegrityError:
                     st.error("⚠️ A hospital with this Registration Number already exists in the system.")
 
-    # ── TAB 2: Check Status ───────────────────────────────────────────────────
     with tab2:
         st.markdown("""
         <div style="font-family:'Source Serif 4',serif;font-size:1.2rem;color:#a8c8e8;
@@ -576,7 +589,6 @@ if page == "🏥  Hospital Registration":
                 else:
                     st.warning("No hospital found with that registration number.")
 
-        # Show all registered hospitals (demo data)
         st.markdown("<br>**All Registered Hospitals (Demo Data)**", unsafe_allow_html=True)
         conn = get_conn()
         all_hosps = pd.read_sql(
@@ -600,7 +612,6 @@ elif page == "📊  Public Health Dashboard":
 
     df, h_index = run_model()
 
-    # ── HealthSensex Index ────────────────────────────────────────────────────
     score_color = "#22c55e" if h_index>=75 else "#f97316" if h_index>=50 else "#ef4444"
     status_text = "HEALTHY" if h_index>=75 else "MODERATE RISK" if h_index>=50 else "HIGH RISK"
 
@@ -653,7 +664,6 @@ elif page == "📊  Public Health Dashboard":
 
     st.markdown("---")
 
-    # ── Disease Abbreviation Reference ───────────────────────────────────────
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:0.8rem;">
         Disease Tracking Reference
@@ -672,7 +682,6 @@ elif page == "📊  Public Health Dashboard":
 
     st.markdown("---")
 
-    # ── Charts ────────────────────────────────────────────────────────────────
     col_a, col_b = st.columns(2, gap="large")
 
     with col_a:
@@ -715,7 +724,6 @@ elif page == "📊  Public Health Dashboard":
         )
         st.plotly_chart(fig2, use_container_width=True)
 
-    # ── Outbreak Alerts ───────────────────────────────────────────────────────
     st.markdown("---")
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:0.8rem;">
@@ -727,7 +735,6 @@ elif page == "📊  Public Health Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
-    # Simulate outbreak detection
     df_sorted = df.sort_values(["State","Disease_Type","Date"])
     df_sorted["7d_avg"] = df_sorted.groupby(["State","Disease_Type"])["Daily_Billing_Amount"].transform(
         lambda x: x.rolling(7, min_periods=1).mean())
@@ -769,7 +776,6 @@ elif page == "📊  Public Health Dashboard":
 elif page == "🔒  Govt Official Portal":
     render_header("Government Official Access — Restricted")
 
-    # 4 valid passwords
     VALID_PASSWORDS = {"gov2026", "goven125", "government", "modu"}
 
     if "govt_authed" not in st.session_state:
@@ -808,14 +814,12 @@ elif page == "🔒  Govt Official Portal":
     else:
         df, h_index = run_model()
 
-        # ── Logout ────────────────────────────────────────────────────────────
         col_title, col_logout = st.columns([4,1])
         with col_logout:
             if st.button("🔓 Logout"):
                 st.session_state.govt_authed = False
                 st.rerun()
 
-        # ── Welcome banner — IST time ─────────────────────────────────────────
         ist_now = get_ist_now()
         st.markdown(f"""
         <div style="background:#071a0e;border:1px solid #0f3a1e;border-radius:6px;
@@ -831,7 +835,6 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
-        # ── Score + KPIs ──────────────────────────────────────────────────────
         score_color = "#22c55e" if h_index>=75 else "#f97316" if h_index>=50 else "#ef4444"
         col_idx, col_kpi = st.columns([1,3], gap="large")
 
@@ -863,7 +866,6 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("---")
 
-        # ── Fraud Flags Table ─────────────────────────────────────────────────
         st.markdown("""
         <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;
                     margin-bottom:0.8rem;">
@@ -875,7 +877,6 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
-        # Active alert banner
         top_hosp = flagged_df.Hospital_ID.value_counts().idxmax() if len(flagged_df)>0 else "N/A"
         st.markdown(f"""
         <div style="background:#1a0a0a;border:1px solid #3a1010;border-left:4px solid #ef4444;
@@ -887,7 +888,6 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
-        # Filter controls
         fc1, fc2, fc3 = st.columns(3)
         with fc1:
             sel_hosp = st.multiselect("Filter Hospital", df.Hospital_ID.unique().tolist(), default=df.Hospital_ID.unique().tolist())
@@ -928,7 +928,6 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("---")
 
-        # ── Action Buttons ────────────────────────────────────────────────────
         st.markdown("**Official Actions**")
         ac1, ac2, ac3, ac4 = st.columns(4)
         with ac1:
@@ -952,7 +951,6 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("---")
 
-        # ── Charts ────────────────────────────────────────────────────────────
         col_c1, col_c2 = st.columns(2, gap="large")
 
         with col_c1:
@@ -976,7 +974,6 @@ elif page == "🔒  Govt Official Portal":
                                legend=dict(bgcolor="#07111e"))
             st.plotly_chart(fig2, use_container_width=True)
 
-        # ── Registered Hospitals Management ───────────────────────────────────
         st.markdown("---")
         with st.expander("🏥 Manage Hospital Registrations", expanded=False):
             conn = get_conn()
