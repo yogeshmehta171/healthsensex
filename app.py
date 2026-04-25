@@ -68,10 +68,6 @@ def init_db():
 
 init_db()
 
-# ─────────────────────────────────────────────────────────────────────────────
-# IST TIME — no external library needed, pure timedelta
-# ─────────────────────────────────────────────────────────────────────────────
-
 def get_ist_now():
     return datetime.utcnow() + timedelta(hours=5, minutes=30)
 
@@ -88,8 +84,6 @@ html, body, [class*="css"] {
     background-color: #04080f !important;
     color: #d4dce8;
 }
-
-/* ── Sidebar forced dark ── */
 [data-testid="stSidebar"] {
     background: #070d18 !important;
     border-right: 2px solid #d4830a !important;
@@ -110,25 +104,17 @@ html, body, [class*="css"] {
     letter-spacing: 0.15em !important;
     font-weight: 600 !important;
 }
-[data-testid="stSidebar"] hr {
-    border-color: #0f2233 !important;
-}
-
-/* ── Sidebar collapse button — hide the text label only ── */
+[data-testid="stSidebar"] hr { border-color: #0f2233 !important; }
 [data-testid="stSidebarCollapseButton"] button {
     background: #070d18 !important;
     border: 1px solid #0f2233 !important;
     color: #d4830a !important;
 }
-[data-testid="stSidebarCollapseButton"] button span {
-    display: none !important;
-}
+[data-testid="stSidebarCollapseButton"] button span { display: none !important; }
 [data-testid="stSidebarCollapseButton"] button svg {
     fill: #d4830a !important;
     color: #d4830a !important;
 }
-
-/* Input fields */
 [data-testid="stTextInput"] input,
 [data-testid="stSelectbox"] select,
 [data-testid="stNumberInput"] input {
@@ -142,8 +128,6 @@ html, body, [class*="css"] {
     border-color: #d4830a !important;
     box-shadow: 0 0 0 2px rgba(212,131,10,0.15) !important;
 }
-
-/* Metric cards */
 [data-testid="stMetric"] {
     background: #07111e;
     border: 1px solid #0f2233;
@@ -162,8 +146,6 @@ html, body, [class*="css"] {
     font-family: 'IBM Plex Mono', monospace;
     color: #e8f0f8 !important;
 }
-
-/* Buttons */
 .stButton > button {
     background: #d4830a !important;
     color: #ffffff !important;
@@ -180,24 +162,15 @@ html, body, [class*="css"] {
     background: #b8700a !important;
     box-shadow: 0 4px 16px rgba(212,131,10,0.3) !important;
 }
-
-/* Success / Error */
 .stSuccess { background: #071a0e !important; border-left: 4px solid #16a34a !important; }
 .stError   { background: #1a0707 !important; border-left: 4px solid #dc2626 !important; }
-
-/* Dataframe */
 [data-testid="stDataFrame"] { border: 1px solid #0f2233 !important; border-radius: 6px; }
-
-/* Expander */
 [data-testid="stExpander"] {
     background: #07111e !important;
     border: 1px solid #0f2233 !important;
     border-radius: 6px !important;
 }
-
 h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
-
-/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #04080f; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
@@ -271,303 +244,272 @@ INDIA_STATES = [
     "Andaman & Nicobar Islands","Chandigarh","Dadra & Nagar Haveli",
     "Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"
 ]
+
 STATE_DATA = {
     "Andhra Pradesh": {
         "districts": [
-            "Alluri Sitharama Raju", "Anakapalli", "Ananthapuramu", "Annamayya",
-            "Bapatla", "Chittoor", "Dr. B.R. Ambedkar Konaseema", "East Godavari",
-            "Eluru", "Guntur", "Kakinada", "Krishna", "Kurnool", "Manyam (Parvathipuram)",
-            "N T Rama Rao (NTR)", "Nandyal", "Nellore (Sri Potti Sriramulu)", "Prakasam",
-            "Sri Balaji (Tirupati)", "Sri Sathya Sai", "Srikakulam", "Tirupati",
-            "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"
-        ],
-        "pin_prefix": "5"
+            "Alluri Sitharama Raju","Anakapalli","Ananthapuramu","Annamayya",
+            "Bapatla","Chittoor","Dr. B.R. Ambedkar Konaseema","East Godavari",
+            "Eluru","Guntur","Kakinada","Krishna","Kurnool","Manyam (Parvathipuram)",
+            "N T Rama Rao (NTR)","Nandyal","Nellore (Sri Potti Sriramulu)","Prakasam",
+            "Sri Balaji (Tirupati)","Sri Sathya Sai","Srikakulam","Tirupati",
+            "Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"
+        ], "pin_prefix": "5"
     },
     "Arunachal Pradesh": {
         "districts": [
-            "Anjaw", "Bichom (West Kameng)", "Capital Complex Itanagar", "Changlang",
-            "Dibang Valley", "East Kameng", "East Siang", "Kamle", "Keyi Panyor",
-            "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding",
-            "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai",
-            "Pakke-Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang",
-            "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"
-        ],
-        "pin_prefix": "79"
+            "Anjaw","Bichom","Capital Complex Itanagar","Changlang",
+            "Dibang Valley","East Kameng","East Siang","Kamle","Keyi Panyor",
+            "Kra Daadi","Kurung Kumey","Lepa Rada","Lohit","Longding",
+            "Lower Dibang Valley","Lower Siang","Lower Subansiri","Namsai",
+            "Pakke-Kessang","Papum Pare","Shi Yomi","Siang","Tawang",
+            "Tirap","Upper Siang","Upper Subansiri","West Kameng","West Siang"
+        ], "pin_prefix": "79"
     },
     "Assam": {
         "districts": [
-            "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar",
-            "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh",
-            "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat",
-            "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj",
-            "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
-            "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur",
-            "Tinsukia", "Udalguri", "West Karbi Anglong"
-        ],
-        "pin_prefix": "78"
+            "Bajali","Baksa","Barpeta","Biswanath","Bongaigaon","Cachar",
+            "Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh",
+            "Dima Hasao","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat",
+            "Kamrup","Kamrup Metropolitan","Karbi Anglong","Karimganj",
+            "Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari",
+            "Sivasagar","Sonitpur","South Salmara-Mankachar","Tamulpur",
+            "Tinsukia","Udalguri","West Karbi Anglong"
+        ], "pin_prefix": "78"
     },
     "Bihar": {
         "districts": [
-            "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur",
-            "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj",
-            "Jamui", "Jehanabad", "Kaimur (Bhabua)", "Katihar", "Khagaria",
-            "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger",
-            "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas",
-            "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar",
-            "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"
-        ],
-        "pin_prefix": "8"
+            "Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur",
+            "Bhojpur","Buxar","Darbhanga","East Champaran","Gaya","Gopalganj",
+            "Jamui","Jehanabad","Kaimur (Bhabua)","Katihar","Khagaria",
+            "Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger",
+            "Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas",
+            "Saharsa","Samastipur","Saran","Sheikhpura","Sheohar",
+            "Sitamarhi","Siwan","Supaul","Vaishali","West Champaran"
+        ], "pin_prefix": "8"
     },
     "Chhattisgarh": {
         "districts": [
-            "Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur",
-            "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Gaurela-Pendra-Marwahi",
-            "Janjgir-Champa", "Jashpur", "Kabirdham (Kawardha)", "Kanker",
-            "Khairagarh-Chhuikhadan-Gandai", "Kondagaon", "Korba", "Koriya",
-            "Mahasamund", "Manendragarh-Chirmiri-Bharatpur", "Mohla-Manpur-Chowki",
-            "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon",
-            "Sakti", "Sarangarh-Bilaigarh", "Sukma", "Surajpur", "Surguja"
-        ],
-        "pin_prefix": "49"
+            "Balod","Baloda Bazar","Balrampur","Bastar","Bemetara","Bijapur",
+            "Bilaspur","Dantewada","Dhamtari","Durg","Gariaband","Gaurela-Pendra-Marwahi",
+            "Janjgir-Champa","Jashpur","Kabirdham (Kawardha)","Kanker",
+            "Khairagarh-Chhuikhadan-Gandai","Kondagaon","Korba","Koriya",
+            "Mahasamund","Manendragarh-Chirmiri-Bharatpur","Mohla-Manpur-Chowki",
+            "Mungeli","Narayanpur","Raigarh","Raipur","Rajnandgaon",
+            "Sakti","Sarangarh-Bilaigarh","Sukma","Surajpur","Surguja"
+        ], "pin_prefix": "49"
     },
     "Goa": {
-        "districts": ["North Goa", "South Goa"],
+        "districts": ["North Goa","South Goa"],
         "pin_prefix": "403"
     },
     "Gujarat": {
         "districts": [
-            "Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch",
-            "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka",
-            "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda",
-            "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari",
-            "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha",
-            "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"
-        ],
-        "pin_prefix": "38"
+            "Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch",
+            "Bhavnagar","Botad","Chhota Udaipur","Dahod","Dang","Devbhoomi Dwarka",
+            "Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda",
+            "Kutch","Mahisagar","Mehsana","Morbi","Narmada","Navsari",
+            "Panchmahal","Patan","Porbandar","Rajkot","Sabarkantha",
+            "Surat","Surendranagar","Tapi","Vadodara","Valsad"
+        ], "pin_prefix": "38"
     },
     "Haryana": {
         "districts": [
-            "Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad",
-            "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal",
-            "Kurukshetra", "Mahendragarh", "Nuh", "Palwal", "Panchkula",
-            "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"
-        ],
-        "pin_prefix": "1"
+            "Ambala","Bhiwani","Charkhi Dadri","Faridabad","Fatehabad",
+            "Gurugram","Hisar","Jhajjar","Jind","Kaithal","Karnal",
+            "Kurukshetra","Mahendragarh","Nuh","Palwal","Panchkula",
+            "Panipat","Rewari","Rohtak","Sirsa","Sonipat","Yamunanagar"
+        ], "pin_prefix": "1"
     },
     "Himachal Pradesh": {
         "districts": [
-            "Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu",
-            "Lahaul & Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"
-        ],
-        "pin_prefix": "17"
+            "Bilaspur","Chamba","Hamirpur","Kangra","Kinnaur","Kullu",
+            "Lahaul & Spiti","Mandi","Shimla","Sirmaur","Solan","Una"
+        ], "pin_prefix": "17"
     },
     "Jharkhand": {
         "districts": [
-            "Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum",
-            "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara",
-            "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu",
-            "Ramgarh", "Ranchi", "Sahebganj", "Seraikela Kharsawan", "Simdega",
+            "Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum",
+            "Garhwa","Giridih","Godda","Gumla","Hazaribagh","Jamtara",
+            "Khunti","Koderma","Latehar","Lohardaga","Pakur","Palamu",
+            "Ramgarh","Ranchi","Sahebganj","Seraikela Kharsawan","Simdega",
             "West Singhbhum"
-        ],
-        "pin_prefix": "83"
+        ], "pin_prefix": "83"
     },
     "Karnataka": {
         "districts": [
-            "Bagalkot", "Ballari (Bellary)", "Belagavi (Belgaum)", "Bengaluru Rural",
-            "Bengaluru Urban", "Bidar", "Chamarajanagar", "Chikkaballapur",
-            "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere",
-            "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi (Gulbarga)",
-            "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru (Mysore)",
-            "Raichur", "Ramanagara", "Shivamogga (Shimoga)", "Tumakuru (Tumkur)",
-            "Udupi", "Uttara Kannada", "Vijayapura (Bijapur)", "Yadgir"
-        ],
-        "pin_prefix": "56"
+            "Bagalkot","Ballari","Belagavi","Bengaluru Rural","Bengaluru Urban",
+            "Bidar","Chamarajanagar","Chikkaballapur","Chikkamagaluru","Chitradurga",
+            "Dakshina Kannada","Davanagere","Dharwad","Gadag","Hassan","Haveri",
+            "Kalaburagi","Kodagu","Kolar","Koppal","Mandya","Mysuru",
+            "Raichur","Ramanagara","Shivamogga","Tumakuru","Udupi",
+            "Uttara Kannada","Vijayapura","Yadgir"
+        ], "pin_prefix": "56"
     },
     "Kerala": {
         "districts": [
-            "Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod",
-            "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad",
-            "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"
-        ],
-        "pin_prefix": "67"
+            "Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod",
+            "Kollam","Kottayam","Kozhikode","Malappuram","Palakkad",
+            "Pathanamthitta","Thiruvananthapuram","Thrissur","Wayanad"
+        ], "pin_prefix": "67"
     },
     "Madhya Pradesh": {
         "districts": [
-            "Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat",
-            "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur",
-            "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori",
-            "Guna", "Gwalior", "Harda", "Hoshangabad (Narmadapuram)", "Indore",
-            "Jabalpur", "Jhabua", "Katni", "Khandwa (East Nimar)", "Khargone (West Nimar)",
-            "Maihar", "Mandla", "Mandsaur", "Mauganj", "Morena", "Narsimhapur",
-            "Neemuch", "Niwari", "Pandhurna", "Panna", "Raisen", "Rajgarh",
-            "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni",
-            "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli",
-            "Tikamgarh", "Ujjain", "Umaria", "Vidisha"
-        ],
-        "pin_prefix": "45"
+            "Agar Malwa","Alirajpur","Anuppur","Ashoknagar","Balaghat",
+            "Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur",
+            "Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori",
+            "Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur",
+            "Jhabua","Katni","Khandwa","Khargone","Maihar","Mandla",
+            "Mandsaur","Mauganj","Morena","Narsimhapur","Neemuch","Niwari",
+            "Pandhurna","Panna","Raisen","Rajgarh","Ratlam","Rewa",
+            "Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur",
+            "Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain",
+            "Umaria","Vidisha"
+        ], "pin_prefix": "45"
     },
     "Maharashtra": {
         "districts": [
-            "Ahmednagar", "Akola", "Amravati", "Aurangabad (Chhatrapati Sambhajinagar)",
-            "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli",
-            "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur",
-            "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar",
-            "Nashik", "Osmanabad (Dharashiv)", "Palghar", "Parbhani", "Pune",
-            "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur",
-            "Thane", "Wardha", "Washim", "Yavatmal"
-        ],
-        "pin_prefix": "4"
+            "Ahmednagar","Akola","Amravati","Aurangabad","Beed","Bhandara",
+            "Buldhana","Chandrapur","Dhule","Gadchiroli","Gondia","Hingoli",
+            "Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban",
+            "Nagpur","Nanded","Nandurbar","Nashik","Osmanabad","Palghar",
+            "Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara",
+            "Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"
+        ], "pin_prefix": "4"
     },
     "Manipur": {
         "districts": [
-            "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West",
-            "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney",
-            "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"
-        ],
-        "pin_prefix": "795"
+            "Bishnupur","Chandel","Churachandpur","Imphal East","Imphal West",
+            "Jiribam","Kakching","Kamjong","Kangpokpi","Noney",
+            "Pherzawl","Senapati","Tamenglong","Tengnoupal","Thoubal","Ukhrul"
+        ], "pin_prefix": "795"
     },
     "Meghalaya": {
         "districts": [
-            "East Garo Hills", "East Jaintia Hills", "East Khasi Hills",
-            "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi",
-            "South Garo Hills", "South West Garo Hills", "South West Khasi Hills",
-            "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"
-        ],
-        "pin_prefix": "793"
+            "East Garo Hills","East Jaintia Hills","East Khasi Hills",
+            "Eastern West Khasi Hills","North Garo Hills","Ri Bhoi",
+            "South Garo Hills","South West Garo Hills","South West Khasi Hills",
+            "West Garo Hills","West Jaintia Hills","West Khasi Hills"
+        ], "pin_prefix": "793"
     },
     "Mizoram": {
         "districts": [
-            "Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib",
-            "Lawngtlai", "Lunglei", "Mamit", "Saitual", "Serchhip",
-            "Siaha", "Spuia"
-        ],
-        "pin_prefix": "796"
+            "Aizawl","Champhai","Hnahthial","Khawzawl","Kolasib",
+            "Lawngtlai","Lunglei","Mamit","Saitual","Serchhip","Siaha"
+        ], "pin_prefix": "796"
     },
     "Nagaland": {
         "districts": [
-            "Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng",
-            "Mokokchung", "Mon", "Niuland", "Noklak", "Peren",
-            "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"
-        ],
-        "pin_prefix": "797"
+            "Chumoukedima","Dimapur","Kiphire","Kohima","Longleng",
+            "Mokokchung","Mon","Niuland","Noklak","Peren",
+            "Phek","Shamator","Tseminyu","Tuensang","Wokha","Zunheboto"
+        ], "pin_prefix": "797"
     },
     "Odisha": {
         "districts": [
-            "Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh",
-            "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam",
-            "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal",
-            "Kendrapara", "Kendujhar (Keonjhar)", "Khordha", "Koraput",
-            "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada",
-            "Puri", "Rayagada", "Sambalpur", "Subarnapur (Sonepur)", "Sundargarh"
-        ],
-        "pin_prefix": "75"
+            "Angul","Balangir","Balasore","Bargarh","Bhadrak","Boudh",
+            "Cuttack","Deogarh","Dhenkanal","Gajapati","Ganjam",
+            "Jagatsinghpur","Jajpur","Jharsuguda","Kalahandi","Kandhamal",
+            "Kendrapara","Kendujhar","Khordha","Koraput","Malkangiri",
+            "Mayurbhanj","Nabarangpur","Nayagarh","Nuapada","Puri",
+            "Rayagada","Sambalpur","Subarnapur","Sundargarh"
+        ], "pin_prefix": "75"
     },
     "Punjab": {
         "districts": [
-            "Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib",
-            "Fazilka", "Ferozepur", "Gurdaspur", "Hoshiarpur", "Jalandhar",
-            "Kapurthala", "Ludhiana", "Malerkotla", "Mansa", "Moga",
-            "Mohali (SAS Nagar)", "Muktsar (Sri Muktsar Sahib)", "Nawanshahr (Shaheed Bhagat Singh Nagar)",
-            "Pathankot", "Patiala", "Ropar (Rupnagar)", "Sangrur", "Tarn Taran"
-        ],
-        "pin_prefix": "14"
+            "Amritsar","Barnala","Bathinda","Faridkot","Fatehgarh Sahib",
+            "Fazilka","Ferozepur","Gurdaspur","Hoshiarpur","Jalandhar",
+            "Kapurthala","Ludhiana","Malerkotla","Mansa","Moga",
+            "Mohali (SAS Nagar)","Muktsar","Nawanshahr","Pathankot",
+            "Patiala","Ropar","Sangrur","Tarn Taran"
+        ], "pin_prefix": "14"
     },
     "Rajasthan": {
         "districts": [
-            "Ajmer", "Alwar", "Anupgarh", "Balotra", "Banswara", "Baran",
-            "Barmer", "Beawar", "Bharatpur", "Bhilwara", "Bikaner", "Bundi",
-            "Chittorgarh", "Churu", "Dausa", "Deeg", "Dholpur", "Didwana-Kuchaman",
-            "Dudu", "Dungarpur", "Ganganagar (Sri Ganganagar)", "Gangapur City",
-            "Hanumangarh", "Jaipur", "Jaipur Rural", "Jaisalmer", "Jalore",
-            "Jhalawar", "Jhunjhunu", "Jodhpur", "Jodhpur Rural", "Karauli",
-            "Kekri", "Khairthal-Tijara", "Kota", "Kotputli-Behror", "Nagaur",
-            "Neem Ka Thana", "Pali", "Phalodi", "Pratapgarh", "Rajsamand",
-            "Salumbar", "Sanchore", "Sawai Madhopur", "Shahpura", "Sikar",
-            "Sirohi", "Tonk", "Udaipur"
-        ],
-        "pin_prefix": "30"
+            "Ajmer","Alwar","Anupgarh","Balotra","Banswara","Baran",
+            "Barmer","Beawar","Bharatpur","Bhilwara","Bikaner","Bundi",
+            "Chittorgarh","Churu","Dausa","Deeg","Dholpur","Didwana-Kuchaman",
+            "Dudu","Dungarpur","Sri Ganganagar","Gangapur City","Hanumangarh",
+            "Jaipur","Jaipur Rural","Jaisalmer","Jalore","Jhalawar","Jhunjhunu",
+            "Jodhpur","Jodhpur Rural","Karauli","Kekri","Khairthal-Tijara",
+            "Kota","Kotputli-Behror","Nagaur","Neem Ka Thana","Pali",
+            "Phalodi","Pratapgarh","Rajsamand","Salumbar","Sanchore",
+            "Sawai Madhopur","Shahpura","Sikar","Sirohi","Tonk","Udaipur"
+        ], "pin_prefix": "30"
     },
     "Sikkim": {
         "districts": [
-            "East Sikkim", "Gyalshing (West Sikkim)", "Namchi (South Sikkim)",
-            "Pakyong", "Soreng", "North Sikkim"
-        ],
-        "pin_prefix": "737"
+            "East Sikkim","Gyalshing","Namchi","Pakyong","Soreng","North Sikkim"
+        ], "pin_prefix": "737"
     },
     "Tamil Nadu": {
         "districts": [
-            "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore",
-            "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kancheepuram",
-            "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai",
-            "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai",
-            "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi",
-            "Thanjavur", "Theni", "Thoothukudi (Tuticorin)", "Tiruchirappalli",
-            "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvallur", "Tiruvannamalai",
-            "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"
-        ],
-        "pin_prefix": "6"
+            "Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore",
+            "Dharmapuri","Dindigul","Erode","Kallakurichi","Kancheepuram",
+            "Kanyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai",
+            "Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai",
+            "Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi",
+            "Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli",
+            "Tirupathur","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur",
+            "Vellore","Viluppuram","Virudhunagar"
+        ], "pin_prefix": "6"
     },
     "Telangana": {
         "districts": [
-            "Adilabad", "Bhadradri Kothagudem", "Hanumakonda", "Hyderabad",
-            "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal",
-            "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem Asifabad",
-            "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal-Malkajgiri",
-            "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal",
-            "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy",
-            "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy",
-            "Warangal", "Yadadri Bhuvanagiri"
-        ],
-        "pin_prefix": "5"
+            "Adilabad","Bhadradri Kothagudem","Hanumakonda","Hyderabad",
+            "Jagtial","Jangaon","Jayashankar Bhupalpally","Jogulamba Gadwal",
+            "Kamareddy","Karimnagar","Khammam","Kumuram Bheem Asifabad",
+            "Mahabubabad","Mahabubnagar","Mancherial","Medak","Medchal-Malkajgiri",
+            "Mulugu","Nagarkurnool","Nalgonda","Narayanpet","Nirmal",
+            "Nizamabad","Peddapalli","Rajanna Sircilla","Rangareddy",
+            "Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy",
+            "Warangal","Yadadri Bhuvanagiri"
+        ], "pin_prefix": "5"
     },
     "Tripura": {
         "districts": [
-            "Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala",
-            "South Tripura", "Unakoti", "West Tripura"
-        ],
-        "pin_prefix": "799"
+            "Dhalai","Gomati","Khowai","North Tripura","Sepahijala",
+            "South Tripura","Unakoti","West Tripura"
+        ], "pin_prefix": "799"
     },
     "Uttar Pradesh": {
         "districts": [
-            "Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha (J.P. Nagar)",
-            "Auraiya", "Ayodhya (Faizabad)", "Azamgarh", "Baghpat", "Bahraich",
-            "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti",
-            "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot",
-            "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad",
-            "Gautam Buddha Nagar (Noida)", "Ghaziabad", "Ghazipur", "Gonda",
-            "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun",
-            "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar",
-            "Kasganj", "Kaushambi", "Kheri (Lakhimpur Kheri)", "Kushinagar",
-            "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri",
-            "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar",
-            "Pilibhit", "Pratapgarh", "Prayagraj (Allahabad)", "Rae Bareli",
-            "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Sant Ravidas Nagar (Bhadohi)",
-            "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur",
-            "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"
-        ],
-        "pin_prefix": "2"
+            "Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha",
+            "Auraiya","Ayodhya","Azamgarh","Baghpat","Bahraich",
+            "Ballia","Balrampur","Banda","Barabanki","Bareilly","Basti",
+            "Bijnor","Budaun","Bulandshahr","Chandauli","Chitrakoot",
+            "Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad",
+            "Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda",
+            "Gorakhpur","Hamirpur","Hapur","Hardoi","Hathras","Jalaun",
+            "Jaunpur","Jhansi","Kannauj","Kanpur Dehat","Kanpur Nagar",
+            "Kasganj","Kaushambi","Lakhimpur Kheri","Kushinagar","Lalitpur",
+            "Lucknow","Maharajganj","Mahoba","Mainpuri","Mathura","Mau",
+            "Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit",
+            "Pratapgarh","Prayagraj","Rae Bareli","Rampur","Saharanpur",
+            "Sambhal","Sant Kabir Nagar","Bhadohi","Shahjahanpur","Shamli",
+            "Shravasti","Siddharthnagar","Sitapur","Sonbhadra","Sultanpur",
+            "Unnao","Varanasi"
+        ], "pin_prefix": "2"
     },
     "Uttarakhand": {
         "districts": [
-            "Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun",
-            "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh",
-            "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"
-        ],
-        "pin_prefix": "24"
+            "Almora","Bageshwar","Chamoli","Champawat","Dehradun",
+            "Haridwar","Nainital","Pauri Garhwal","Pithoragarh",
+            "Rudraprayag","Tehri Garhwal","Udham Singh Nagar","Uttarkashi"
+        ], "pin_prefix": "24"
     },
     "West Bengal": {
         "districts": [
-            "Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur",
-            "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram",
-            "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia",
-            "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur",
-            "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas",
+            "Alipurduar","Bankura","Birbhum","Cooch Behar","Dakshin Dinajpur",
+            "Darjeeling","Hooghly","Howrah","Jalpaiguri","Jhargram",
+            "Kalimpong","Kolkata","Malda","Murshidabad","Nadia",
+            "North 24 Parganas","Paschim Bardhaman","Paschim Medinipur",
+            "Purba Bardhaman","Purba Medinipur","Purulia","South 24 Parganas",
             "Uttar Dinajpur"
-        ],
-        "pin_prefix": "7"
+        ], "pin_prefix": "7"
     },
     "Andaman & Nicobar Islands": {
-        "districts": ["Nicobar", "North & Middle Andaman", "South Andaman"],
+        "districts": ["Nicobar","North & Middle Andaman","South Andaman"],
         "pin_prefix": "744"
     },
     "Chandigarh": {
@@ -579,28 +521,26 @@ STATE_DATA = {
         "pin_prefix": "396"
     },
     "Daman & Diu": {
-        "districts": ["Daman", "Diu"],
+        "districts": ["Daman","Diu"],
         "pin_prefix": "362"
     },
     "Delhi": {
         "districts": [
-            "Central Delhi", "East Delhi", "New Delhi", "North Delhi",
-            "North East Delhi", "North West Delhi", "Shahdara", "South Delhi",
-            "South East Delhi", "South West Delhi", "West Delhi"
-        ],
-        "pin_prefix": "11"
+            "Central Delhi","East Delhi","New Delhi","North Delhi",
+            "North East Delhi","North West Delhi","Shahdara","South Delhi",
+            "South East Delhi","South West Delhi","West Delhi"
+        ], "pin_prefix": "11"
     },
     "Jammu & Kashmir": {
         "districts": [
-            "Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda",
-            "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam",
-            "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban",
-            "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"
-        ],
-        "pin_prefix": "18"
+            "Anantnag","Bandipora","Baramulla","Budgam","Doda",
+            "Ganderbal","Jammu","Kathua","Kishtwar","Kulgam",
+            "Kupwara","Poonch","Pulwama","Rajouri","Ramban",
+            "Reasi","Samba","Shopian","Srinagar","Udhampur"
+        ], "pin_prefix": "18"
     },
     "Ladakh": {
-        "districts": ["Kargil", "Leh"],
+        "districts": ["Kargil","Leh"],
         "pin_prefix": "194"
     },
     "Lakshadweep": {
@@ -608,10 +548,11 @@ STATE_DATA = {
         "pin_prefix": "682"
     },
     "Puducherry": {
-        "districts": ["Karaikal", "Mahe", "Puducherry", "Yanam"],
+        "districts": ["Karaikal","Mahe","Puducherry","Yanam"],
         "pin_prefix": "605"
     },
 }
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DISEASE ABBR
 # ─────────────────────────────────────────────────────────────────────────────
@@ -658,7 +599,6 @@ def generate_data(seed=42):
                     "_fraud_label": "None"
                 })
     df = pd.DataFrame(records)
-
     m1 = (df.Hospital_ID=="HOSP-007")&(df.Disease_Type=="Dengue")&(df.Date>="2024-06-01")&(df.Date<="2024-06-14")
     df.loc[m1,"Daily_Billing_Amount"] *= 10
     df.loc[m1,"_fraud_label"] = "Billing Spike"
@@ -681,7 +621,6 @@ def run_model(seed=42, contamination=0.03):
     df = df.merge(stats, on="Disease_Type", how="left")
     df["Billing_Z"] = (df["Daily_Billing_Amount"] - df["mean"]) / (df["std"] + 1e-6)
     df.drop(columns=["mean","std"], inplace=True)
-
     X = df[["Daily_Billing_Amount","Billing_7d_Avg","Billing_Dev","Doctor_Daily_DC","Billing_Z"]].fillna(0)
     model = IsolationForest(n_estimators=200, contamination=contamination, random_state=42, n_jobs=-1)
     model.fit(X)
@@ -689,11 +628,9 @@ def run_model(seed=42, contamination=0.03):
     df["Flagged"] = model.predict(X) == -1
     s_min, s_max = df.Anomaly_Raw.min(), df.Anomaly_Raw.max()
     df["Risk_Score"] = ((df.Anomaly_Raw - s_min)/(s_max - s_min + 1e-9)*100).round(1)
-
     conds   = [df.Doctor_Daily_DC>=10, df.Billing_Dev>=5.0, df.Billing_Z>=3.0]
     choices = ["⚰️ Death Cert Velocity", "💰 Billing Spike", "📊 Statistical Outlier"]
     df["Flag_Reason"] = np.select(conds, choices, default="🔍 Composite Anomaly")
-
     anomaly_rate = df.Flagged.mean()
     h = max(0, min(100, round(100 - anomaly_rate*1500 - (10 if df.Billing_Dev.max()>5 else 0) - (5 if df.Doctor_Daily_DC.max()>20 else 0), 1)))
     return df, h
@@ -784,77 +721,92 @@ if page == "🏥  Hospital Registration":
         </div>
         """, unsafe_allow_html=True)
 
-        with st.form("hospital_registration_form", clear_on_submit=True):
-            st.markdown("**SECTION A — Hospital Identity**")
-            col1, col2 = st.columns(2)
-            with col1:
-                hosp_name   = st.text_input("Hospital / Institution Name *", placeholder="e.g. Apollo Hospitals Delhi")
-                reg_number  = st.text_input("Registration Number *", placeholder="e.g. MH/HOS/2024/001234")
-                abdm_id     = st.text_input("ABDM Health Facility ID (if registered)", placeholder="HFR-XXXXXX (leave blank if not yet registered)")
-            with col2:
-                hosp_type   = st.selectbox("Hospital Type *", [
-                    "— Select —",
-                    "Government District Hospital",
-                    "Government Medical College Hospital",
-                    "Government Primary Health Centre (PHC)",
-                    "Government Community Health Centre (CHC)",
-                    "Private Multi-Specialty Hospital",
-                    "Private Single-Specialty Clinic",
-                    "Private Nursing Home",
-                    "Charitable / Trust Hospital",
-                    "AIIMS / Central Govt Institution",
-                    "ESI / CGHS Empanelled",
-                ])
-                beds        = st.number_input("Total Bed Capacity *", min_value=1, max_value=5000, value=50)
-                ms_name     = st.text_input("Medical Superintendent Name *", placeholder="Dr. Full Name")
+        # ── SECTION A ──────────────────────────────────────────────────────────
+        st.markdown("**SECTION A — Hospital Identity**")
+        col1, col2 = st.columns(2)
+        with col1:
+            hosp_name  = st.text_input("Hospital / Institution Name *", placeholder="e.g. Apollo Hospitals Delhi", key="reg_hosp_name")
+            reg_number = st.text_input("Registration Number *", placeholder="e.g. MH/HOS/2024/001234", key="reg_reg_number")
+            abdm_id    = st.text_input("ABDM Health Facility ID (if registered)", placeholder="HFR-XXXXXX (leave blank if not yet registered)", key="reg_abdm_id")
+        with col2:
+            hosp_type = st.selectbox("Hospital Type *", [
+                "— Select —",
+                "Government District Hospital",
+                "Government Medical College Hospital",
+                "Government Primary Health Centre (PHC)",
+                "Government Community Health Centre (CHC)",
+                "Private Multi-Specialty Hospital",
+                "Private Single-Specialty Clinic",
+                "Private Nursing Home",
+                "Charitable / Trust Hospital",
+                "AIIMS / Central Govt Institution",
+                "ESI / CGHS Empanelled",
+            ], key="reg_hosp_type")
+            beds    = st.number_input("Total Bed Capacity *", min_value=1, max_value=5000, value=50, key="reg_beds")
+            ms_name = st.text_input("Medical Superintendent Name *", placeholder="Dr. Full Name", key="reg_ms_name")
 
-            st.markdown("<br>**SECTION B — Location**", unsafe_allow_html=True)
-            col3, col4, col5 = st.columns(3)
-            with col3:
-                state    = st.selectbox("State / UT *", ["— Select —"] + INDIA_STATES)
-            with col4:
-                if state != "— Select —" and state in STATE_DATA:
-                    dist_list = ["— Select District —"] + STATE_DATA[state]["districts"]
-                    dist_sel = st.selectbox("District *", dist_list)
-                    district = dist_sel if dist_sel != "— Select District —" else ""
-                else:
-                    st.selectbox("District *", ["— Select state first —"], disabled=True)
-                    district = ""
-            with col5:
-                if state != "— Select —" and state in STATE_DATA:
-                    pin_pre = STATE_DATA[state]["pin_prefix"]
-                    pincode = st.text_input("PIN Code *", placeholder=f"{pin_pre}XXXX", max_chars=6)
-                else:
-                    pincode = st.text_input("PIN Code *", placeholder="110001", max_chars=6)
+        # ── SECTION B — Location (KEY FIX: outside form, state drives district) ─
+        st.markdown("<br>**SECTION B — Location**", unsafe_allow_html=True)
+        col3, col4, col5 = st.columns(3)
 
-            st.markdown("<br>**SECTION C — Contact**", unsafe_allow_html=True)
-            col6, col7 = st.columns(2)
-            with col6:
-                email = st.text_input("Official Email Address *", placeholder="admin@hospital.gov.in")
-            with col7:
-                phone = st.text_input("Contact Number *", placeholder="+91 XXXXX XXXXX")
+        with col3:
+            state = st.selectbox(
+                "State / UT *",
+                ["— Select —"] + INDIA_STATES,
+                key="reg_state"
+            )
 
-            st.markdown("<br>", unsafe_allow_html=True)
-            col_cb, col_btn = st.columns([3,1])
-            with col_cb:
-                declaration = st.checkbox(
-                    "I hereby declare that all information provided is accurate and I authorise the "
-                    "Ministry of Health to verify this data with ABDM and relevant state authorities."
+        with col4:
+            if state != "— Select —" and state in STATE_DATA:
+                district = st.selectbox(
+                    "District *",
+                    ["— Select District —"] + STATE_DATA[state]["districts"],
+                    key=f"reg_district_{state}"   # key changes with state → forces fresh render
                 )
-            with col_btn:
-                submitted = st.form_submit_button("SUBMIT REGISTRATION →", use_container_width=True)
+                if district == "— Select District —":
+                    district = ""
+            else:
+                st.selectbox("District *", ["— Select state first —"], disabled=True, key="reg_district_empty")
+                district = ""
+
+        with col5:
+            if state != "— Select —" and state in STATE_DATA:
+                pin_pre = STATE_DATA[state]["pin_prefix"]
+                pincode = st.text_input("PIN Code *", placeholder=f"{pin_pre}XXXX", max_chars=6, key="reg_pincode")
+            else:
+                pincode = st.text_input("PIN Code *", placeholder="110001", max_chars=6, key="reg_pincode_empty")
+
+        # ── SECTION C ──────────────────────────────────────────────────────────
+        st.markdown("<br>**SECTION C — Contact**", unsafe_allow_html=True)
+        col6, col7 = st.columns(2)
+        with col6:
+            email = st.text_input("Official Email Address *", placeholder="admin@hospital.gov.in", key="reg_email")
+        with col7:
+            phone = st.text_input("Contact Number *", placeholder="+91 XXXXX XXXXX", key="reg_phone")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        col_cb, col_btn = st.columns([3, 1])
+        with col_cb:
+            declaration = st.checkbox(
+                "I hereby declare that all information provided is accurate and I authorise the "
+                "Ministry of Health to verify this data with ABDM and relevant state authorities.",
+                key="reg_declaration"
+            )
+        with col_btn:
+            submitted = st.button("SUBMIT REGISTRATION →", use_container_width=True, key="reg_submit")
 
         if submitted:
             errors = []
-            if not hosp_name.strip(): errors.append("Hospital Name")
+            if not hosp_name.strip():  errors.append("Hospital Name")
             if not reg_number.strip(): errors.append("Registration Number")
             if hosp_type == "— Select —": errors.append("Hospital Type")
-            if state == "— Select —": errors.append("State")
-            if not district.strip(): errors.append("District")
-            if not pincode.strip() or not pincode.isdigit() or len(pincode)!=6: errors.append("Valid 6-digit PIN Code")
+            if state == "— Select —":  errors.append("State")
+            if not district.strip():   errors.append("District")
+            if not pincode.strip() or not pincode.isdigit() or len(pincode) != 6:
+                errors.append("Valid 6-digit PIN Code")
             if not email.strip() or "@" not in email: errors.append("Valid Email")
-            if not ms_name.strip(): errors.append("Medical Superintendent Name")
-            if not declaration: errors.append("Declaration checkbox")
+            if not ms_name.strip():    errors.append("Medical Superintendent Name")
+            if not declaration:        errors.append("Declaration checkbox")
 
             if errors:
                 st.error(f"⚠️ Please fill in: **{', '.join(errors)}**")
@@ -971,7 +923,6 @@ elif page == "📊  Public Health Dashboard":
 
     st.markdown("---")
 
-    # ── HEALTH SENSEX ─────────────────────────────────────────────────────────
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:1rem;">
         🦠 Health Sensex
@@ -989,7 +940,6 @@ elif page == "📊  Public Health Dashboard":
         df_["Month"] = df_["Date"].dt.to_period("M")
         monthly_cases = df_.groupby(["Disease_Type","Month"]).size().reset_index(name="Cases")
         monthly_cases["Month_dt"] = monthly_cases["Month"].dt.to_timestamp()
-
         disease_scores = {}
         for disease in df_["Disease_Type"].unique():
             d = monthly_cases[monthly_cases.Disease_Type==disease].sort_values("Month_dt")
@@ -999,7 +949,6 @@ elif page == "📊  Public Health Dashboard":
             else:
                 score = 0.0
             disease_scores[disease] = score
-
         state_cases = df_.groupby(["State","Month"]).size().reset_index(name="Cases")
         state_cases["Month_dt"] = state_cases["Month"].dt.to_timestamp()
         state_scores = {}
@@ -1011,7 +960,6 @@ elif page == "📊  Public Health Dashboard":
             else:
                 score = 0.0
             state_scores[state] = score
-
         overall = round(np.mean(list(disease_scores.values())), 1)
         return disease_scores, state_scores, overall, monthly_cases
 
@@ -1076,7 +1024,6 @@ elif page == "📊  Public Health Dashboard":
     st.markdown("<br>", unsafe_allow_html=True)
 
     col_st1, col_st2 = st.columns(2, gap="large")
-
     with col_st1:
         st.markdown("**State-wise Disease Spread Index**")
         state_df = pd.DataFrame({
@@ -1122,7 +1069,6 @@ elif page == "📊  Public Health Dashboard":
         st.plotly_chart(fig_trend, use_container_width=True)
 
     st.markdown("---")
-
     col_a, col_b = st.columns(2, gap="large")
 
     with col_a:
@@ -1130,11 +1076,8 @@ elif page == "📊  Public Health Dashboard":
         state_disease = df.groupby(["State","Disease_Type"]).size().reset_index(name="Cases")
         top_states = state_disease.groupby("State")["Cases"].sum().nlargest(8).index
         chart_df = state_disease[state_disease.State.isin(top_states)]
-        fig = px.bar(
-            chart_df, x="State", y="Cases", color="Disease_Type",
-            color_discrete_sequence=px.colors.qualitative.Set2,
-            template="plotly_dark",
-        )
+        fig = px.bar(chart_df, x="State", y="Cases", color="Disease_Type",
+                     color_discrete_sequence=px.colors.qualitative.Set2, template="plotly_dark")
         fig.update_layout(
             paper_bgcolor="#07111e", plot_bgcolor="#04080f",
             font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
@@ -1153,13 +1096,10 @@ elif page == "📊  Public Health Dashboard":
         ).reset_index()
         corr_df["Death_Rate"] = (corr_df["Deaths"] / corr_df["Cases"] * 100).round(2)
         corr_df["Abbr"] = corr_df["Disease_Type"].map(lambda x: DISEASE_ABBR.get(x, x[:3]))
-        fig2 = px.scatter(
-            corr_df, x="Cases", y="Death_Rate",
-            text="Abbr", size="Deaths",
-            color="Death_Rate",
-            color_continuous_scale=[[0,"#22c55e"],[0.5,"#f97316"],[1,"#ef4444"]],
-            template="plotly_dark",
-        )
+        fig2 = px.scatter(corr_df, x="Cases", y="Death_Rate", text="Abbr", size="Deaths",
+                          color="Death_Rate",
+                          color_continuous_scale=[[0,"#22c55e"],[0.5,"#f97316"],[1,"#ef4444"]],
+                          template="plotly_dark")
         fig2.update_traces(textposition="top center", marker=dict(sizemin=8))
         fig2.update_layout(
             paper_bgcolor="#07111e", plot_bgcolor="#04080f",
@@ -1171,7 +1111,6 @@ elif page == "📊  Public Health Dashboard":
         )
         st.plotly_chart(fig2, use_container_width=True)
 
-    # ── Outbreak Timeline + Heatmap ───────────────────────────────────────────
     st.markdown("---")
     col_c, col_d = st.columns(2, gap="large")
 
@@ -1179,7 +1118,6 @@ elif page == "📊  Public Health Dashboard":
         st.markdown("**Disease Outbreak Timeline**")
         timeline_df = df.groupby([df.Date.dt.to_period("M"), "Disease_Type"]).size().reset_index(name="Cases")
         timeline_df["Date"] = timeline_df["Date"].dt.to_timestamp()
-        colors_list = ["#d4830a","#ef4444","#3b82f6","#22c55e","#a855f7","#f97316","#06b6d4","#eab308"]
         fig_tl = go.Figure()
         for i, disease in enumerate(df["Disease_Type"].unique()):
             d = timeline_df[timeline_df.Disease_Type==disease]
@@ -1368,8 +1306,7 @@ elif page == "🔒  Govt Official Portal":
         st.markdown("---")
 
         st.markdown("""
-        <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;
-                    margin-bottom:0.8rem;">
+        <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:0.8rem;">
             🔴 Flagged High-Risk Records
             <span style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;color:#4a6a8a;
                          margin-left:1rem;letter-spacing:0.1em;text-transform:uppercase;">
@@ -1428,7 +1365,6 @@ elif page == "🔒  Govt Official Portal":
         st.caption(f"Showing {len(view):,} flagged records. Click any row to investigate.")
 
         st.markdown("---")
-
         st.markdown("**Official Actions**")
         ac1, ac2, ac3, ac4 = st.columns(4)
         with ac1:
@@ -1451,7 +1387,6 @@ elif page == "🔒  Govt Official Portal":
                 st.rerun()
 
         st.markdown("---")
-
         col_c1, col_c2 = st.columns(2, gap="large")
 
         with col_c1:
