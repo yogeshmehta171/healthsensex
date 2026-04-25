@@ -189,7 +189,8 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #d4830a; }
 /* Hide sidebar collapse button */
-[data-testid="stSidebarCollapseButton"] { display: none !important; }
+[data-testid="collapsedControl"] { display: none !important; }
+button[kind="header"] { display: none !important; }
 [data-testid="collapsedControl"] { display: none !important; }
 button[kind="header"] { display: none !important; }
 </style>
