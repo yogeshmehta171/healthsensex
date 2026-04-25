@@ -1157,18 +1157,11 @@ elif page == "🔒  Govt Official Portal":
 # FOOTER
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style="text-align:center;padding:2rem 0 0.5rem 0;
-            font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#0f2233;border-top:1px solid #0a1828;margin-top:2rem;">
-            st.markdown("""
-<div style='text-align:center;padding:1rem 0;font-size:1.1rem;color:#FF9933;font-weight:600;'>
-    🇮🇳 Jai Hind — Built with pride for India's healthcare future
-</div>
-""", unsafe_allow_html=True)
-st.markdown("""
 <div style='text-align:center;padding:1rem 0;font-size:1.1rem;color:#FF9933;font-weight:600;'>
     Jai Hind &#127470;&#127475; &mdash; Built with pride for India's healthcare future
 </div>
 """, unsafe_allow_html=True)
+
     HealthSensex AI &nbsp;·&nbsp; Built for INDIA   &nbsp;·&nbsp;
     Isolation Forest · Scikit-learn · Streamlit · SQLite<br>
     Synthetic data only — no real patient information used or stored.
