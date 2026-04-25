@@ -189,20 +189,7 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #d4830a; }
 
-section[data-testid="stSidebarCollapseButton"] {
-    visibility: hidden !important;
-}
-
-[data-testid="stSidebarCollapseButton"]::before {
-    content: "☰" !important;
-    color: #d4830a !important;
-    font-size: 1.2rem !important;
-}
-/* Hide sidebar collapse button */
-[data-testid="collapsedControl"] { display: none !important; }
-button[kind="header"] { display: none !important; }
-[data-testid="collapsedControl"] { display: none !important; }
-button[kind="header"] { display: none !important; }
+[data-testid="stSidebarCollapseButton"] span { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
