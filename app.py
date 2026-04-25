@@ -11,7 +11,6 @@ import hashlib
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
-import pytz
 from sklearn.ensemble import IsolationForest
 import warnings, os
 warnings.filterwarnings("ignore")
@@ -70,16 +69,7 @@ def init_db():
 init_db()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# IST TIME HELPER
-# ─────────────────────────────────────────────────────────────────────────────
-
-def get_ist_now():
-    ist = pytz.timezone('Asia/Kolkata')
-    return datetime.now(ist)
-
-# ─────────────────────────────────────────────────────────────────────────────
 # GLOBAL CSS — Government portal aesthetic, deep navy + saffron + white
-# Sidebar fixed to match Streamlit's light/dark mode properly
 # ─────────────────────────────────────────────────────────────────────────────
 
 st.markdown("""
@@ -92,55 +82,20 @@ html, body, [class*="css"] {
     color: #d4dce8;
 }
 
-/* ── Sidebar ── */
+/* Sidebar */
 [data-testid="stSidebar"] {
     background: #070d18 !important;
-    border-right: 2px solid #d4830a !important;
+    border-right: 1px solid #0f1e30;
 }
-
-/* Sidebar ALL text */
-[data-testid="stSidebar"] * {
-    color: #a8c0d8 !important;
-    font-family: 'IBM Plex Sans', sans-serif !important;
+[data-testid="stSidebar"] .stRadio label {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    color: #7a9ab8;
+    padding: 6px 0;
 }
-
-/* Sidebar radio labels */
-[data-testid="stSidebar"] .stRadio label,
-[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label p {
-    font-family: 'IBM Plex Sans', sans-serif !important;
-    font-size: 0.9rem !important;
-    letter-spacing: 0.03em !important;
-    color: #a8c0d8 !important;
-    padding: 6px 0 !important;
-}
-
-/* Sidebar radio heading */
-[data-testid="stSidebar"] .stRadio > label > div > p {
-    color: #d4830a !important;
-    font-size: 0.7rem !important;
-    letter-spacing: 0.15em !important;
-    font-weight: 600 !important;
-}
-
-/* Radio button circle - unselected */
-[data-testid="stSidebar"] [data-baseweb="radio"] div[data-testid="stMarkdownContainer"] {
-    color: #a8c0d8 !important;
-}
-
-/* Selected radio option highlight */
-[data-testid="stSidebar"] .stRadio [data-baseweb="radio"]:has(input:checked) label p {
-    color: #d4830a !important;
-    font-weight: 600 !important;
-}
-
-/* Sidebar small mono text */
-[data-testid="stSidebar"] div[style*="IBM Plex Mono"] {
-    color: #3a6a9a !important;
-}
-
-/* Sidebar hr */
-[data-testid="stSidebar"] hr {
-    border-color: #0f2233 !important;
+[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] input:checked + div {
+    border-color: #d4830a !important;
 }
 
 /* Input fields */
@@ -217,32 +172,6 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 ::-webkit-scrollbar-track { background: #04080f; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #d4830a; }
-
-/* Main content area */
-.main .block-container {
-    background: #04080f;
-    color: #d4dce8;
-}
-
-/* Tab styling */
-[data-testid="stTabs"] [data-baseweb="tab"] {
-    color: #7a9ab8 !important;
-    font-family: 'IBM Plex Sans', sans-serif !important;
-}
-[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"] {
-    color: #d4830a !important;
-    border-bottom-color: #d4830a !important;
-}
-
-/* Multiselect tags */
-[data-testid="stMultiSelect"] [data-baseweb="tag"] {
-    background: #d4830a !important;
-}
-
-/* Slider */
-[data-testid="stSlider"] [data-baseweb="slider"] [data-testid="stThumbValue"] {
-    color: #d4830a !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -251,7 +180,6 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 # ─────────────────────────────────────────────────────────────────────────────
 
 def render_header(subtitle=""):
-    ist_now = get_ist_now()
     st.markdown(f"""
     <div style="
         background: linear-gradient(135deg, #070d18 0%, #0a1628 60%, #07111e 100%);
@@ -291,7 +219,7 @@ def render_header(subtitle=""):
                 animation: blink 2s infinite;
             ">● LIVE SYSTEM</div>
             <div style="font-size: 0.65rem; color: #2a4a6a; margin-top: 6px; font-family: IBM Plex Mono;">
-                {ist_now.strftime('%d %b %Y  %H:%M IST')}
+                {(datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime('%d %b %Y  %H:%M IST')}
             </div>
         </div>
     </div>
@@ -313,30 +241,16 @@ INDIA_STATES = [
     "Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"
 ]
 
-# ─────────────────────────────────────────────────────────────────────────────
-# DISEASE ABBREVIATIONS — Cardiac → GBS, Orthopedic → Influenza
-# ─────────────────────────────────────────────────────────────────────────────
-
 DISEASE_ABBR = {
-    "Dengue":                    "DEN",
-    "Tuberculosis":              "TB",
-    "Malaria":                   "MAL",
-    "Typhoid":                   "TYP",
-    "COVID-19":                  "COV",
-    "GBS (Guillain-Barré)":      "GBS",
-    "Influenza":                 "FLU",
-    "Cancer":                    "CAN",
-    "Cholera":                   "CHL",
-    "Pneumonia":                 "PNE",
-    "Hepatitis B":               "HEP-B",
-    "HIV/AIDS":                  "HIV",
-    "Chikungunya":               "CHK",
-    "Japanese Encephalitis":     "JE",
-    "Leptospirosis":             "LEP",
+    "Dengue": "DEN", "Tuberculosis": "TB", "Malaria": "MAL",
+    "Typhoid": "TYP", "COVID-19": "COV", "Cardiac": "CAR",
+    "Orthopedic": "ORT", "Cancer": "CAN", "Cholera": "CHL",
+    "Pneumonia": "PNE", "Hepatitis B": "HEP-B", "HIV/AIDS": "HIV",
+    "Chikungunya": "CHK", "Japanese Encephalitis": "JE", "Leptospirosis": "LEP"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SYNTHETIC DATA
+# SYNTHETIC DATA (same as existing prototype + region info)
 # ─────────────────────────────────────────────────────────────────────────────
 
 @st.cache_data
@@ -347,13 +261,7 @@ def generate_data(seed=42):
     date_range  = pd.date_range("2024-01-01", "2024-12-31", freq="D")
     hosp_ids    = [f"HOSP-{str(i).zfill(3)}" for i in range(1, N_HOSPITALS+1)]
     dr_ids      = [f"DR-{str(i).zfill(4)}" for i in range(1, N_DOCTORS+1)]
-
-    # Updated diseases list — Cardiac → GBS, Orthopedic → Influenza
-    diseases = [
-        "Dengue", "Tuberculosis", "Malaria", "Typhoid",
-        "COVID-19", "GBS (Guillain-Barré)", "Influenza", "Cancer"
-    ]
-
+    diseases    = list(DISEASE_ABBR.keys())[:8]
     states      = ["Maharashtra","Delhi","Karnataka","Tamil Nadu","Uttar Pradesh",
                    "Gujarat","West Bengal","Rajasthan","Kerala","Telangana",
                    "Punjab","Madhya Pradesh"]
@@ -365,14 +273,13 @@ def generate_data(seed=42):
             for _ in range(np.random.randint(3,9)):
                 billing = np.clip(np.random.lognormal(10.5, 0.6), 5000, 200000)
                 records.append({
-                    "Date":                date,
-                    "Hospital_ID":         hosp,
-                    "Doctor_ID":           np.random.choice(dr_ids),
-                    "Disease_Type":        np.random.choice(diseases),
-                    "State":               hosp_states[hosp],
-                    "Daily_Billing_Amount":round(billing, 2),
-                    "Death_Certs_Signed":  np.random.choice([0,1,2], p=[0.70,0.22,0.08]),
-                    "_fraud_label":        "None"
+                    "Date": date, "Hospital_ID": hosp,
+                    "Doctor_ID": np.random.choice(dr_ids),
+                    "Disease_Type": np.random.choice(diseases),
+                    "State": hosp_states[hosp],
+                    "Daily_Billing_Amount": round(billing, 2),
+                    "Death_Certs_Signed": np.random.choice([0,1,2], p=[0.70,0.22,0.08]),
+                    "_fraud_label": "None"
                 })
     df = pd.DataFrame(records)
 
@@ -426,7 +333,7 @@ with st.sidebar:
         <div style="font-family:'Source Serif 4',serif;font-size:1.1rem;color:#d4830a;font-weight:700;">
             HealthSensex
         </div>
-        <div style="font-size:0.65rem;color:#4a7aaa;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">
+        <div style="font-size:0.65rem;color:#2a4a6a;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">
             National Health Portal
         </div>
     </div>
@@ -441,7 +348,7 @@ with st.sidebar:
 
     st.markdown("""
     <hr style="border:none;border-top:1px solid #0f2233;margin:1rem 0 0.5rem 0;">
-    <div style="font-size:0.62rem;color:#3a6a9a;font-family:'IBM Plex Mono',monospace;line-height:2;">
+    <div style="font-size:0.62rem;color:#1a3050;font-family:IBM Plex Mono;line-height:2;">
     DATA SOURCE: Synthetic (Demo)<br>
     ABDM SYNC: Simulated<br>
     RECORDS: ~30,000+<br>
@@ -582,7 +489,7 @@ if page == "🏥  Hospital Registration":
                           hosp_type, state, district.strip(), pincode.strip(),
                           beds, email.strip(), phone.strip(), ms_name.strip()))
                     conn.commit()
-                    ref_id = f"HSX{get_ist_now().strftime('%Y%m%d%H%M%S')}"
+                    ref_id = f"HSX{datetime.now().strftime('%Y%m%d%H%M%S')}"
                     conn.close()
                     st.success(f"""
                     ✅ **Registration Submitted Successfully**
@@ -642,6 +549,7 @@ if page == "🏥  Hospital Registration":
                 else:
                     st.warning("No hospital found with that registration number.")
 
+        # Show all registered hospitals (demo data)
         st.markdown("<br>**All Registered Hospitals (Demo Data)**", unsafe_allow_html=True)
         conn = get_conn()
         all_hosps = pd.read_sql(
@@ -792,6 +700,7 @@ elif page == "📊  Public Health Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
+    # Simulate outbreak detection
     df_sorted = df.sort_values(["State","Disease_Type","Date"])
     df_sorted["7d_avg"] = df_sorted.groupby(["State","Disease_Type"])["Daily_Billing_Amount"].transform(
         lambda x: x.rolling(7, min_periods=1).mean())
@@ -833,6 +742,7 @@ elif page == "📊  Public Health Dashboard":
 elif page == "🔒  Govt Official Portal":
     render_header("Government Official Access — Restricted")
 
+    # Simple password gate
     if "govt_authed" not in st.session_state:
         st.session_state.govt_authed = False
 
@@ -852,7 +762,7 @@ elif page == "🔒  Govt Official Portal":
 
         pwd = st.text_input("Enter Access Code", type="password", placeholder="••••••••")
         if st.button("AUTHENTICATE →", use_container_width=True):
-            if pwd == "gov2024":
+            if pwd in ["gov2026", "goven125", "government", "modu"]:
                 st.session_state.govt_authed = True
                 st.rerun()
             else:
@@ -860,7 +770,7 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("""
                 <div style="font-size:0.65rem;color:#1a3050;margin-top:1.2rem;font-family:IBM Plex Mono;">
-                    DEMO CODE: gov2024 &nbsp;·&nbsp; All access attempts are logged
+                    All access attempts are logged
                 </div>
             </div>
         </div>
@@ -876,15 +786,14 @@ elif page == "🔒  Govt Official Portal":
                 st.session_state.govt_authed = False
                 st.rerun()
 
-        # ── Welcome banner — IST time ─────────────────────────────────────────
-        ist_now = get_ist_now()
+        # ── Welcome banner ────────────────────────────────────────────────────
         st.markdown(f"""
         <div style="background:#071a0e;border:1px solid #0f3a1e;border-radius:6px;
                     padding:0.9rem 1.4rem;margin-bottom:1.5rem;
                     display:flex;align-items:center;justify-content:space-between;">
             <span style="color:#16a34a;font-size:0.83rem;">
                 ✅ Authenticated · Official Portal Active ·
-                Access logged at {ist_now.strftime('%H:%M IST')}
+                Access logged at {datetime.now().strftime('%H:%M IST')}
             </span>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#0f3a1e;">
                 SESSION SECURED
@@ -936,6 +845,7 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
+        # Active alert banner
         top_hosp = flagged_df.Hospital_ID.value_counts().idxmax() if len(flagged_df)>0 else "N/A"
         st.markdown(f"""
         <div style="background:#1a0a0a;border:1px solid #3a1010;border-left:4px solid #ef4444;
@@ -947,6 +857,7 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
+        # Filter controls
         fc1, fc2, fc3 = st.columns(3)
         with fc1:
             sel_hosp = st.multiselect("Filter Hospital", df.Hospital_ID.unique().tolist(), default=df.Hospital_ID.unique().tolist())
@@ -1049,7 +960,7 @@ elif page == "🔒  Govt Official Portal":
                     if st.button("✅ Mark as Verified"):
                         conn = get_conn()
                         conn.execute("UPDATE hospitals SET status='Verified', verified_at=? WHERE id=?",
-                                     (get_ist_now().isoformat(), int(verify_id)))
+                                     (datetime.now().isoformat(), int(verify_id)))
                         conn.execute("INSERT INTO audit_log (action,hospital_id,performed_by) VALUES (?,?,?)",
                                      ("VERIFIED", int(verify_id), "govt_official"))
                         conn.commit(); conn.close()
