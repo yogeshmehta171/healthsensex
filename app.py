@@ -12,7 +12,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 from sklearn.ensemble import IsolationForest
-from sklearn.metrics import classification_report, precision_recall_fscore_support
 import warnings, os
 warnings.filterwarnings("ignore")
 
@@ -632,21 +631,9 @@ def run_model(seed=42, contamination=0.03):
     conds   = [df.Doctor_Daily_DC>=10, df.Billing_Dev>=5.0, df.Billing_Z>=3.0]
     choices = ["⚰️ Death Cert Velocity", "💰 Billing Spike", "📊 Statistical Outlier"]
     df["Flag_Reason"] = np.select(conds, choices, default="🔍 Composite Anomaly")
-    anomalyrate = df['Flagged'].mean()
-    h = max(0, min(100, round(100 - anomalyrate*100, 1)))
-
-    # NEW: Model Evaluation Metrics
-    y_true = df['fraud_label'].notna().astype(int)
-    y_pred = df['Flagged'].astype(int)
-    precision, recall, f1, _ = precision_recall_fscore_support(y_true, y_pred, average='binary', zero_division=0)
-    metrics = {
-        'Precision': round(precision, 3),
-        'Recall': round(recall, 3),
-        'F1-Score': round(f1, 3),
-        'Anomaly Rate': f"{anomaly_rate*100:.1f}%",
-        'Contamination': contamination
-    }
-    return df, h, metrics
+    anomaly_rate = df.Flagged.mean()
+    h = max(0, min(100, round(100 - anomaly_rate*1500 - (10 if df.Billing_Dev.max()>5 else 0) - (5 if df.Doctor_Daily_DC.max()>20 else 0), 1)))
+    return df, h
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SIDEBAR NAV
