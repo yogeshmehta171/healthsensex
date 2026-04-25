@@ -188,9 +188,11 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 ::-webkit-scrollbar-track { background: #04080f; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #d4830a; }
-[data-testid="stSidebarCollapseButton"] svg {
-    display: none !important;
+
+section[data-testid="stSidebarCollapseButton"] {
+    visibility: hidden !important;
 }
+
 [data-testid="stSidebarCollapseButton"]::before {
     content: "☰" !important;
     color: #d4830a !important;
