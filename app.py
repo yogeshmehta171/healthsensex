@@ -796,24 +796,81 @@ elif page == "📊  Public Health Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
     with col_b:
-        st.markdown("**Monthly Billing Trend (National)**")
-        monthly = df.groupby(df.Date.dt.to_period("M"))["Daily_Billing_Amount"].sum().reset_index()
-        monthly["Date"] = monthly["Date"].astype(str)
-        fig2 = go.Figure()
-        fig2.add_trace(go.Scatter(
-            x=monthly.Date, y=monthly.Daily_Billing_Amount,
-            mode="lines+markers", line=dict(color="#d4830a", width=2),
-            marker=dict(size=4), name="Total Billing",
-            fill="tozeroy", fillcolor="rgba(212,131,10,0.08)"
-        ))
+        st.markdown("**Disease vs Death Rate Correlation**")
+        corr_df = df.groupby("Disease_Type").agg(
+            Cases=("Daily_Billing_Amount","count"),
+            Deaths=("Death_Certs_Signed","sum")
+        ).reset_index()
+        corr_df["Death_Rate"] = (corr_df["Deaths"] / corr_df["Cases"] * 100).round(2)
+        corr_df["Abbr"] = corr_df["Disease_Type"].map(lambda x: DISEASE_ABBR.get(x, x[:3]))
+        fig2 = px.scatter(
+            corr_df, x="Cases", y="Death_Rate",
+            text="Abbr", size="Deaths",
+            color="Death_Rate",
+            color_continuous_scale=[[0,"#22c55e"],[0.5,"#f97316"],[1,"#ef4444"]],
+            template="plotly_dark",
+        )
+        fig2.update_traces(textposition="top center", marker=dict(sizemin=8))
         fig2.update_layout(
             paper_bgcolor="#07111e", plot_bgcolor="#04080f",
             font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
-            margin=dict(l=0,r=0,t=10,b=0), height=320, showlegend=False,
-            xaxis=dict(gridcolor="#0f2233", tickangle=-30),
-            yaxis=dict(gridcolor="#0f2233"),
+            margin=dict(l=0,r=0,t=10,b=0), height=320,
+            xaxis=dict(gridcolor="#0f2233", title="Total Cases"),
+            yaxis=dict(gridcolor="#0f2233", title="Death Rate (%)"),
+            coloraxis_showscale=False,
         )
         st.plotly_chart(fig2, use_container_width=True)
+
+    # ── Outbreak Timeline + Heatmap ───────────────────────────────────────────
+    st.markdown("---")
+    col_c, col_d = st.columns(2, gap="large")
+
+    with col_c:
+        st.markdown("**Disease Outbreak Timeline**")
+        timeline_df = df.groupby([df.Date.dt.to_period("M"), "Disease_Type"]).size().reset_index(name="Cases")
+        timeline_df["Date"] = timeline_df["Date"].dt.to_timestamp()
+        colors_list = ["#d4830a","#ef4444","#3b82f6","#22c55e","#a855f7","#f97316","#06b6d4","#eab308"]
+        fig_tl = go.Figure()
+        for i, disease in enumerate(df["Disease_Type"].unique()):
+            d = timeline_df[timeline_df.Disease_Type==disease]
+            fig_tl.add_trace(go.Scatter(
+                x=d["Date"], y=d["Cases"],
+                mode="lines", name=DISEASE_ABBR.get(disease, disease[:3]),
+                line=dict(color=colors_list[i % len(colors_list)], width=1.8),
+                fill="tozeroy" if i==0 else "none",
+                fillcolor="rgba(212,131,10,0.04)"
+            ))
+        fig_tl.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
+            legend=dict(bgcolor="#07111e", bordercolor="#0f2233", font_size=9,
+                        orientation="h", yanchor="bottom", y=1.02),
+            margin=dict(l=0,r=0,t=30,b=0), height=320,
+            xaxis=dict(gridcolor="#0f2233"),
+            yaxis=dict(gridcolor="#0f2233", title="Cases"),
+        )
+        st.plotly_chart(fig_tl, use_container_width=True)
+
+    with col_d:
+        st.markdown("**State-wise Disease Heatmap**")
+        heatmap_df = df.groupby(["State","Disease_Type"]).size().reset_index(name="Cases")
+        heatmap_pivot = heatmap_df.pivot(index="State", columns="Disease_Type", values="Cases").fillna(0)
+        heatmap_pivot.columns = [DISEASE_ABBR.get(c, c[:3]) for c in heatmap_pivot.columns]
+        fig_hm = go.Figure(go.Heatmap(
+            z=heatmap_pivot.values,
+            x=heatmap_pivot.columns.tolist(),
+            y=heatmap_pivot.index.tolist(),
+            colorscale=[[0,"#04080f"],[0.3,"#0a2a4a"],[0.6,"#d4830a"],[1,"#ef4444"]],
+            showscale=True,
+            colorbar=dict(thickness=10, tickfont=dict(color="#5a7a9a", size=9)),
+        ))
+        fig_hm.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=10),
+            margin=dict(l=0,r=0,t=10,b=0), height=320,
+            xaxis=dict(tickangle=-30),
+        )
+        st.plotly_chart(fig_hm, use_container_width=True)
 
     st.markdown("---")
     st.markdown("""
