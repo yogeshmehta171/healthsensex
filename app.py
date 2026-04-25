@@ -272,43 +272,345 @@ INDIA_STATES = [
     "Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"
 ]
 STATE_DATA = {
-    "Andhra Pradesh": {"districts": ["Visakhapatnam","Vijayawada","Guntur","Nellore","Kurnool","Tirupati","Anantapur","Kakinada","Rajahmundry","Eluru"], "pin_prefix": "5"},
-    "Arunachal Pradesh": {"districts": ["Itanagar","Naharlagun","Tawang","Ziro","Pasighat","Bomdila","Tezu","Aalo","Changlang","Khonsa"], "pin_prefix": "79"},
-    "Assam": {"districts": ["Guwahati","Dibrugarh","Silchar","Jorhat","Nagaon","Tinsukia","Bongaigaon","Karimganj","Hailakandi","Sivasagar"], "pin_prefix": "78"},
-    "Bihar": {"districts": ["Patna","Gaya","Muzaffarpur","Bhagalpur","Darbhanga","Arrah","Begusarai","Katihar","Munger","Purnia"], "pin_prefix": "8"},
-    "Chhattisgarh": {"districts": ["Raipur","Bilaspur","Durg","Korba","Rajnandgaon","Jagdalpur","Ambikapur","Raigarh","Dhamtari","Mahasamund"], "pin_prefix": "49"},
-    "Goa": {"districts": ["North Goa","South Goa","Panaji","Margao","Vasco da Gama","Mapusa","Ponda","Bicholim","Sanquelim","Curchorem"], "pin_prefix": "403"},
-    "Gujarat": {"districts": ["Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar","Jamnagar","Junagadh","Gandhinagar","Anand","Mehsana"], "pin_prefix": "38"},
-    "Haryana": {"districts": ["Gurugram","Faridabad","Ambala","Hisar","Karnal","Rohtak","Panipat","Sonipat","Yamunanagar","Bhiwani"], "pin_prefix": "1"},
-    "Himachal Pradesh": {"districts": ["Shimla","Dharamshala","Mandi","Solan","Kullu","Hamirpur","Una","Bilaspur","Chamba","Kinnaur"], "pin_prefix": "17"},
-    "Jharkhand": {"districts": ["Ranchi","Jamshedpur","Dhanbad","Bokaro","Deoghar","Hazaribagh","Giridih","Ramgarh","Dumka","Chaibasa"], "pin_prefix": "83"},
-    "Karnataka": {"districts": ["Bengaluru Urban","Mysuru","Hubballi","Mangaluru","Belagavi","Kalaburagi","Davanagere","Ballari","Tumakuru","Shivamogga"], "pin_prefix": "56"},
-    "Kerala": {"districts": ["Thiruvananthapuram","Kochi","Kozhikode","Thrissur","Kollam","Kannur","Alappuzha","Palakkad","Malappuram","Kottayam"], "pin_prefix": "67"},
-    "Madhya Pradesh": {"districts": ["Bhopal","Indore","Gwalior","Jabalpur","Ujjain","Sagar","Dewas","Satna","Ratlam","Rewa"], "pin_prefix": "45"},
-    "Maharashtra": {"districts": ["Mumbai","Pune","Nagpur","Thane","Nashik","Aurangabad","Solapur","Amravati","Kolhapur","Sangli"], "pin_prefix": "4"},
-    "Manipur": {"districts": ["Imphal West","Imphal East","Bishnupur","Thoubal","Churachandpur","Senapati","Ukhrul","Chandel","Tamenglong","Jiribam"], "pin_prefix": "795"},
-    "Meghalaya": {"districts": ["East Khasi Hills","West Khasi Hills","Ri Bhoi","East Garo Hills","West Garo Hills","South Garo Hills","Jaintia Hills","East Jaintia Hills","West Jaintia Hills","Eastern West Khasi Hills"], "pin_prefix": "793"},
-    "Mizoram": {"districts": ["Aizawl","Lunglei","Champhai","Serchhip","Kolasib","Lawngtlai","Mamit","Saiha","Saitual","Khawzawl"], "pin_prefix": "796"},
-    "Nagaland": {"districts": ["Kohima","Dimapur","Mokokchung","Tuensang","Wokha","Zunheboto","Phek","Mon","Longleng","Kiphire"], "pin_prefix": "797"},
-    "Odisha": {"districts": ["Bhubaneswar","Cuttack","Rourkela","Brahmapur","Sambalpur","Puri","Balasore","Baripada","Bhadrak","Jharsuguda"], "pin_prefix": "75"},
-    "Punjab": {"districts": ["Ludhiana","Amritsar","Jalandhar","Patiala","Bathinda","Mohali","Hoshiarpur","Gurdaspur","Ferozepur","Faridkot"], "pin_prefix": "14"},
-    "Rajasthan": {"districts": ["Jaipur","Jodhpur","Udaipur","Kota","Bikaner","Ajmer","Bhilwara","Alwar","Bharatpur","Sikar"], "pin_prefix": "30"},
-    "Sikkim": {"districts": ["East Sikkim","West Sikkim","North Sikkim","South Sikkim","Gyalshing","Namchi","Mangan","Soreng","Pakyong","Gangtok"], "pin_prefix": "737"},
-    "Tamil Nadu": {"districts": ["Chennai","Coimbatore","Madurai","Tiruchirappalli","Salem","Tirunelveli","Erode","Vellore","Thoothukudi","Dindigul"], "pin_prefix": "6"},
-    "Telangana": {"districts": ["Hyderabad","Warangal","Nizamabad","Khammam","Karimnagar","Ramagundam","Mahbubnagar","Nalgonda","Adilabad","Suryapet"], "pin_prefix": "5"},
-    "Tripura": {"districts": ["West Tripura","Agartala","North Tripura","South Tripura","Dhalai","Khowai","Gomati","Sepahijala","Unakoti","Sipahijala"], "pin_prefix": "799"},
-    "Uttar Pradesh": {"districts": ["Lucknow","Kanpur","Agra","Varanasi","Meerut","Allahabad","Ghaziabad","Noida","Bareilly","Aligarh"], "pin_prefix": "2"},
-    "Uttarakhand": {"districts": ["Dehradun","Haridwar","Nainital","Udham Singh Nagar","Pauri Garhwal","Chamoli","Tehri Garhwal","Almora","Pithoragarh","Bageshwar"], "pin_prefix": "24"},
-    "West Bengal": {"districts": ["Kolkata","Howrah","Hooghly","North 24 Parganas","South 24 Parganas","Burdwan","Midnapore East","Midnapore West","Murshidabad","Nadia"], "pin_prefix": "7"},
-    "Andaman & Nicobar Islands": {"districts": ["South Andaman","North & Middle Andaman","Nicobar"], "pin_prefix": "744"},
-    "Chandigarh": {"districts": ["Chandigarh"], "pin_prefix": "160"},
-    "Dadra & Nagar Haveli": {"districts": ["Dadra & Nagar Haveli"], "pin_prefix": "396"},
-    "Daman & Diu": {"districts": ["Daman","Diu"], "pin_prefix": "362"},
-    "Delhi": {"districts": ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"], "pin_prefix": "11"},
-    "Jammu & Kashmir": {"districts": ["Srinagar","Jammu","Anantnag","Baramulla","Pulwama","Shopian","Kulgam","Ganderbal","Bandipora","Budgam"], "pin_prefix": "18"},
-    "Ladakh": {"districts": ["Leh","Kargil"], "pin_prefix": "194"},
-    "Lakshadweep": {"districts": ["Lakshadweep"], "pin_prefix": "682"},
-    "Puducherry": {"districts": ["Puducherry","Karaikal","Mahe","Yanam"], "pin_prefix": "605"},
+    "Andhra Pradesh": {
+        "districts": [
+            "Alluri Sitharama Raju", "Anakapalli", "Ananthapuramu", "Annamayya",
+            "Bapatla", "Chittoor", "Dr. B.R. Ambedkar Konaseema", "East Godavari",
+            "Eluru", "Guntur", "Kakinada", "Krishna", "Kurnool", "Manyam (Parvathipuram)",
+            "N T Rama Rao (NTR)", "Nandyal", "Nellore (Sri Potti Sriramulu)", "Prakasam",
+            "Sri Balaji (Tirupati)", "Sri Sathya Sai", "Srikakulam", "Tirupati",
+            "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"
+        ],
+        "pin_prefix": "5"
+    },
+    "Arunachal Pradesh": {
+        "districts": [
+            "Anjaw", "Bichom (West Kameng)", "Capital Complex Itanagar", "Changlang",
+            "Dibang Valley", "East Kameng", "East Siang", "Kamle", "Keyi Panyor",
+            "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding",
+            "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai",
+            "Pakke-Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang",
+            "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"
+        ],
+        "pin_prefix": "79"
+    },
+    "Assam": {
+        "districts": [
+            "Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar",
+            "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh",
+            "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat",
+            "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj",
+            "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari",
+            "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur",
+            "Tinsukia", "Udalguri", "West Karbi Anglong"
+        ],
+        "pin_prefix": "78"
+    },
+    "Bihar": {
+        "districts": [
+            "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur",
+            "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj",
+            "Jamui", "Jehanabad", "Kaimur (Bhabua)", "Katihar", "Khagaria",
+            "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger",
+            "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas",
+            "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar",
+            "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"
+        ],
+        "pin_prefix": "8"
+    },
+    "Chhattisgarh": {
+        "districts": [
+            "Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur",
+            "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Gaurela-Pendra-Marwahi",
+            "Janjgir-Champa", "Jashpur", "Kabirdham (Kawardha)", "Kanker",
+            "Khairagarh-Chhuikhadan-Gandai", "Kondagaon", "Korba", "Koriya",
+            "Mahasamund", "Manendragarh-Chirmiri-Bharatpur", "Mohla-Manpur-Chowki",
+            "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon",
+            "Sakti", "Sarangarh-Bilaigarh", "Sukma", "Surajpur", "Surguja"
+        ],
+        "pin_prefix": "49"
+    },
+    "Goa": {
+        "districts": ["North Goa", "South Goa"],
+        "pin_prefix": "403"
+    },
+    "Gujarat": {
+        "districts": [
+            "Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch",
+            "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka",
+            "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda",
+            "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari",
+            "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha",
+            "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"
+        ],
+        "pin_prefix": "38"
+    },
+    "Haryana": {
+        "districts": [
+            "Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad",
+            "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal",
+            "Kurukshetra", "Mahendragarh", "Nuh", "Palwal", "Panchkula",
+            "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"
+        ],
+        "pin_prefix": "1"
+    },
+    "Himachal Pradesh": {
+        "districts": [
+            "Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu",
+            "Lahaul & Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"
+        ],
+        "pin_prefix": "17"
+    },
+    "Jharkhand": {
+        "districts": [
+            "Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum",
+            "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara",
+            "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu",
+            "Ramgarh", "Ranchi", "Sahebganj", "Seraikela Kharsawan", "Simdega",
+            "West Singhbhum"
+        ],
+        "pin_prefix": "83"
+    },
+    "Karnataka": {
+        "districts": [
+            "Bagalkot", "Ballari (Bellary)", "Belagavi (Belgaum)", "Bengaluru Rural",
+            "Bengaluru Urban", "Bidar", "Chamarajanagar", "Chikkaballapur",
+            "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere",
+            "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi (Gulbarga)",
+            "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru (Mysore)",
+            "Raichur", "Ramanagara", "Shivamogga (Shimoga)", "Tumakuru (Tumkur)",
+            "Udupi", "Uttara Kannada", "Vijayapura (Bijapur)", "Yadgir"
+        ],
+        "pin_prefix": "56"
+    },
+    "Kerala": {
+        "districts": [
+            "Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod",
+            "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad",
+            "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"
+        ],
+        "pin_prefix": "67"
+    },
+    "Madhya Pradesh": {
+        "districts": [
+            "Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat",
+            "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur",
+            "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori",
+            "Guna", "Gwalior", "Harda", "Hoshangabad (Narmadapuram)", "Indore",
+            "Jabalpur", "Jhabua", "Katni", "Khandwa (East Nimar)", "Khargone (West Nimar)",
+            "Maihar", "Mandla", "Mandsaur", "Mauganj", "Morena", "Narsimhapur",
+            "Neemuch", "Niwari", "Pandhurna", "Panna", "Raisen", "Rajgarh",
+            "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni",
+            "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli",
+            "Tikamgarh", "Ujjain", "Umaria", "Vidisha"
+        ],
+        "pin_prefix": "45"
+    },
+    "Maharashtra": {
+        "districts": [
+            "Ahmednagar", "Akola", "Amravati", "Aurangabad (Chhatrapati Sambhajinagar)",
+            "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli",
+            "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur",
+            "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar",
+            "Nashik", "Osmanabad (Dharashiv)", "Palghar", "Parbhani", "Pune",
+            "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur",
+            "Thane", "Wardha", "Washim", "Yavatmal"
+        ],
+        "pin_prefix": "4"
+    },
+    "Manipur": {
+        "districts": [
+            "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West",
+            "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney",
+            "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"
+        ],
+        "pin_prefix": "795"
+    },
+    "Meghalaya": {
+        "districts": [
+            "East Garo Hills", "East Jaintia Hills", "East Khasi Hills",
+            "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi",
+            "South Garo Hills", "South West Garo Hills", "South West Khasi Hills",
+            "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"
+        ],
+        "pin_prefix": "793"
+    },
+    "Mizoram": {
+        "districts": [
+            "Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib",
+            "Lawngtlai", "Lunglei", "Mamit", "Saitual", "Serchhip",
+            "Siaha", "Spuia"
+        ],
+        "pin_prefix": "796"
+    },
+    "Nagaland": {
+        "districts": [
+            "Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng",
+            "Mokokchung", "Mon", "Niuland", "Noklak", "Peren",
+            "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"
+        ],
+        "pin_prefix": "797"
+    },
+    "Odisha": {
+        "districts": [
+            "Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh",
+            "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam",
+            "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal",
+            "Kendrapara", "Kendujhar (Keonjhar)", "Khordha", "Koraput",
+            "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada",
+            "Puri", "Rayagada", "Sambalpur", "Subarnapur (Sonepur)", "Sundargarh"
+        ],
+        "pin_prefix": "75"
+    },
+    "Punjab": {
+        "districts": [
+            "Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib",
+            "Fazilka", "Ferozepur", "Gurdaspur", "Hoshiarpur", "Jalandhar",
+            "Kapurthala", "Ludhiana", "Malerkotla", "Mansa", "Moga",
+            "Mohali (SAS Nagar)", "Muktsar (Sri Muktsar Sahib)", "Nawanshahr (Shaheed Bhagat Singh Nagar)",
+            "Pathankot", "Patiala", "Ropar (Rupnagar)", "Sangrur", "Tarn Taran"
+        ],
+        "pin_prefix": "14"
+    },
+    "Rajasthan": {
+        "districts": [
+            "Ajmer", "Alwar", "Anupgarh", "Balotra", "Banswara", "Baran",
+            "Barmer", "Beawar", "Bharatpur", "Bhilwara", "Bikaner", "Bundi",
+            "Chittorgarh", "Churu", "Dausa", "Deeg", "Dholpur", "Didwana-Kuchaman",
+            "Dudu", "Dungarpur", "Ganganagar (Sri Ganganagar)", "Gangapur City",
+            "Hanumangarh", "Jaipur", "Jaipur Rural", "Jaisalmer", "Jalore",
+            "Jhalawar", "Jhunjhunu", "Jodhpur", "Jodhpur Rural", "Karauli",
+            "Kekri", "Khairthal-Tijara", "Kota", "Kotputli-Behror", "Nagaur",
+            "Neem Ka Thana", "Pali", "Phalodi", "Pratapgarh", "Rajsamand",
+            "Salumbar", "Sanchore", "Sawai Madhopur", "Shahpura", "Sikar",
+            "Sirohi", "Tonk", "Udaipur"
+        ],
+        "pin_prefix": "30"
+    },
+    "Sikkim": {
+        "districts": [
+            "East Sikkim", "Gyalshing (West Sikkim)", "Namchi (South Sikkim)",
+            "Pakyong", "Soreng", "North Sikkim"
+        ],
+        "pin_prefix": "737"
+    },
+    "Tamil Nadu": {
+        "districts": [
+            "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore",
+            "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kancheepuram",
+            "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai",
+            "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai",
+            "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi",
+            "Thanjavur", "Theni", "Thoothukudi (Tuticorin)", "Tiruchirappalli",
+            "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvallur", "Tiruvannamalai",
+            "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"
+        ],
+        "pin_prefix": "6"
+    },
+    "Telangana": {
+        "districts": [
+            "Adilabad", "Bhadradri Kothagudem", "Hanumakonda", "Hyderabad",
+            "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal",
+            "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem Asifabad",
+            "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal-Malkajgiri",
+            "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal",
+            "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy",
+            "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy",
+            "Warangal", "Yadadri Bhuvanagiri"
+        ],
+        "pin_prefix": "5"
+    },
+    "Tripura": {
+        "districts": [
+            "Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala",
+            "South Tripura", "Unakoti", "West Tripura"
+        ],
+        "pin_prefix": "799"
+    },
+    "Uttar Pradesh": {
+        "districts": [
+            "Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha (J.P. Nagar)",
+            "Auraiya", "Ayodhya (Faizabad)", "Azamgarh", "Baghpat", "Bahraich",
+            "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti",
+            "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot",
+            "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad",
+            "Gautam Buddha Nagar (Noida)", "Ghaziabad", "Ghazipur", "Gonda",
+            "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun",
+            "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar",
+            "Kasganj", "Kaushambi", "Kheri (Lakhimpur Kheri)", "Kushinagar",
+            "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri",
+            "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar",
+            "Pilibhit", "Pratapgarh", "Prayagraj (Allahabad)", "Rae Bareli",
+            "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Sant Ravidas Nagar (Bhadohi)",
+            "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur",
+            "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"
+        ],
+        "pin_prefix": "2"
+    },
+    "Uttarakhand": {
+        "districts": [
+            "Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun",
+            "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh",
+            "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"
+        ],
+        "pin_prefix": "24"
+    },
+    "West Bengal": {
+        "districts": [
+            "Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur",
+            "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram",
+            "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia",
+            "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur",
+            "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas",
+            "Uttar Dinajpur"
+        ],
+        "pin_prefix": "7"
+    },
+    "Andaman & Nicobar Islands": {
+        "districts": ["Nicobar", "North & Middle Andaman", "South Andaman"],
+        "pin_prefix": "744"
+    },
+    "Chandigarh": {
+        "districts": ["Chandigarh"],
+        "pin_prefix": "160"
+    },
+    "Dadra & Nagar Haveli": {
+        "districts": ["Dadra & Nagar Haveli"],
+        "pin_prefix": "396"
+    },
+    "Daman & Diu": {
+        "districts": ["Daman", "Diu"],
+        "pin_prefix": "362"
+    },
+    "Delhi": {
+        "districts": [
+            "Central Delhi", "East Delhi", "New Delhi", "North Delhi",
+            "North East Delhi", "North West Delhi", "Shahdara", "South Delhi",
+            "South East Delhi", "South West Delhi", "West Delhi"
+        ],
+        "pin_prefix": "11"
+    },
+    "Jammu & Kashmir": {
+        "districts": [
+            "Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda",
+            "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam",
+            "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban",
+            "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"
+        ],
+        "pin_prefix": "18"
+    },
+    "Ladakh": {
+        "districts": ["Kargil", "Leh"],
+        "pin_prefix": "194"
+    },
+    "Lakshadweep": {
+        "districts": ["Lakshadweep"],
+        "pin_prefix": "682"
+    },
+    "Puducherry": {
+        "districts": ["Karaikal", "Mahe", "Puducherry", "Yanam"],
+        "pin_prefix": "605"
+    },
 }
 # ─────────────────────────────────────────────────────────────────────────────
 # DISEASE ABBR
