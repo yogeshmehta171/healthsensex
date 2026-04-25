@@ -673,6 +673,158 @@ elif page == "📊  Public Health Dashboard":
 
     st.markdown("---")
 
+    # ── DISEASE SPREAD SENSEX ─────────────────────────────────────────────────
+    st.markdown("""
+    <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:1rem;">
+        🦠 Disease Spread Sensex
+        <span style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;color:#4a6a8a;
+                     margin-left:1rem;letter-spacing:0.1em;text-transform:uppercase;">
+            Spread Index · 0 = Controlled · 100 = Critical Outbreak
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    @st.cache_data
+    def compute_spread_sensex(seed=42):
+        np.random.seed(seed)
+        df_ = generate_data(seed)
+        df_["Month"] = df_["Date"].dt.to_period("M")
+        monthly_cases = df_.groupby(["Disease_Type","Month"]).size().reset_index(name="Cases")
+        monthly_cases["Month_dt"] = monthly_cases["Month"].dt.to_timestamp()
+
+        disease_scores = {}
+        for disease in df_["Disease_Type"].unique():
+            d = monthly_cases[monthly_cases.Disease_Type==disease].sort_values("Month_dt")
+            if len(d) >= 2:
+                growth = (d["Cases"].iloc[-1] - d["Cases"].iloc[-2]) / (d["Cases"].iloc[-2] + 1e-6)
+                score  = min(100, max(0, round(40*growth + d["Cases"].mean()/30, 1)))
+            else:
+                score = 0.0
+            disease_scores[disease] = score
+
+        state_cases = df_.groupby(["State","Month"]).size().reset_index(name="Cases")
+        state_cases["Month_dt"] = state_cases["Month"].dt.to_timestamp()
+        state_scores = {}
+        for state in df_["State"].unique():
+            d = state_cases[state_cases.State==state].sort_values("Month_dt")
+            if len(d) >= 2:
+                growth = (d["Cases"].iloc[-1] - d["Cases"].iloc[-2]) / (d["Cases"].iloc[-2] + 1e-6)
+                score  = min(100, max(0, round(40*growth + d["Cases"].mean()/20, 1)))
+            else:
+                score = 0.0
+            state_scores[state] = score
+
+        overall = round(np.mean(list(disease_scores.values())), 1)
+        return disease_scores, state_scores, overall, monthly_cases
+
+    disease_scores, state_scores, overall_spread, monthly_cases = compute_spread_sensex()
+
+    sp_color = "#ef4444" if overall_spread>=70 else "#f97316" if overall_spread>=40 else "#22c55e"
+    sp_text  = "CRITICAL" if overall_spread>=70 else "MODERATE" if overall_spread>=40 else "CONTROLLED"
+
+    col_sp, col_sp_info = st.columns([1, 2.5], gap="large")
+    with col_sp:
+        st.markdown(f"""
+        <div style="background:linear-gradient(135deg,#070d18,#0a1628,#07111e);
+                    border:2px solid #0f2a4a;border-radius:12px;
+                    padding:2rem 1.5rem;text-align:center;
+                    box-shadow:0 0 40px rgba(239,68,68,0.08);">
+            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;
+                        letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;">
+                SPREAD SENSEX
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:5.5rem;
+                        font-weight:600;line-height:1;color:{sp_color};margin:0.5rem 0;">
+                {overall_spread}
+            </div>
+            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.78rem;
+                        color:{sp_color};letter-spacing:0.18em;opacity:0.9;">
+                {sp_text}
+            </div>
+            <div style="font-size:0.65rem;color:#1e3a5a;margin-top:1rem;font-family:IBM Plex Mono;">
+                0 = CONTROLLED &nbsp;·&nbsp; 100 = CRITICAL
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_sp_info:
+        st.markdown("""
+        <div style="font-size:0.72rem;color:#4a6a8a;letter-spacing:0.1em;text-transform:uppercase;
+                    margin-bottom:0.8rem;">Disease-wise Spread Index</div>
+        """, unsafe_allow_html=True)
+        d_cols = st.columns(2)
+        for i, (disease, score) in enumerate(sorted(disease_scores.items(), key=lambda x: -x[1])):
+            abbr = DISEASE_ABBR.get(disease, disease[:3].upper())
+            dclr = "#ef4444" if score>=70 else "#f97316" if score>=40 else "#22c55e"
+            with d_cols[i % 2]:
+                st.markdown(f"""
+                <div style="background:#07111e;border:1px solid #0f2233;border-radius:6px;
+                            padding:0.6rem 0.9rem;margin-bottom:0.5rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                        <div>
+                            <span style="font-family:IBM Plex Mono,monospace;font-size:0.88rem;
+                                         color:#d4830a;font-weight:600;">{abbr}</span>
+                            <span style="font-size:0.75rem;color:#5a7a9a;margin-left:0.5rem;">{disease}</span>
+                        </div>
+                        <span style="font-family:IBM Plex Mono,monospace;font-size:0.85rem;
+                                     color:{dclr};font-weight:600;">{score}</span>
+                    </div>
+                    <div style="background:#0a1828;border-radius:3px;height:5px;width:100%;">
+                        <div style="background:{dclr};height:5px;border-radius:3px;width:{int(score)}%;"></div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col_st1, col_st2 = st.columns(2, gap="large")
+
+    with col_st1:
+        st.markdown("**State-wise Disease Spread Index**")
+        state_df = pd.DataFrame({
+            "State": list(state_scores.keys()),
+            "Spread Index": list(state_scores.values())
+        }).sort_values("Spread Index", ascending=True)
+        fig_state = go.Figure(go.Bar(
+            x=state_df["Spread Index"], y=state_df["State"],
+            orientation="h",
+            marker=dict(color=state_df["Spread Index"],
+                        colorscale=[[0,"#16a34a"],[0.4,"#f97316"],[1,"#ef4444"]],
+                        showscale=False)
+        ))
+        fig_state.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
+            margin=dict(l=0,r=0,t=10,b=0), height=360,
+            xaxis=dict(gridcolor="#0f2233", range=[0,100]),
+            yaxis=dict(gridcolor="#0f2233"),
+        )
+        st.plotly_chart(fig_state, use_container_width=True)
+
+    with col_st2:
+        st.markdown("**Disease Spread Trend (Monthly Cases)**")
+        colors_list = ["#d4830a","#ef4444","#3b82f6","#22c55e","#a855f7","#f97316","#06b6d4","#eab308"]
+        fig_trend = go.Figure()
+        for i, disease in enumerate(disease_scores.keys()):
+            d = monthly_cases[monthly_cases.Disease_Type==disease].sort_values("Month_dt")
+            fig_trend.add_trace(go.Scatter(
+                x=d["Month_dt"], y=d["Cases"],
+                mode="lines", name=DISEASE_ABBR.get(disease, disease[:3]),
+                line=dict(color=colors_list[i % len(colors_list)], width=1.5),
+            ))
+        fig_trend.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
+            legend=dict(bgcolor="#07111e", bordercolor="#0f2233", font_size=9,
+                        orientation="h", yanchor="bottom", y=1.02),
+            margin=dict(l=0,r=0,t=30,b=0), height=360,
+            xaxis=dict(gridcolor="#0f2233"),
+            yaxis=dict(gridcolor="#0f2233"),
+        )
+        st.plotly_chart(fig_trend, use_container_width=True)
+
+    st.markdown("---")
+
     col_a, col_b = st.columns(2, gap="large")
 
     with col_a:
