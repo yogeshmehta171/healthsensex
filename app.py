@@ -510,7 +510,7 @@ if page == "🏥  Hospital Registration":
             col3, col4, col5 = st.columns(3)
             with col3:
                 state    = st.selectbox("State / UT *", ["— Select —"] + INDIA_STATES)
-           with col4:
+            with col4:
                 if state != "— Select —" and state in STATE_DATA:
                     dist_list = ["— Select District —"] + STATE_DATA[state]["districts"]
                     dist_sel = st.selectbox("District *", dist_list)
