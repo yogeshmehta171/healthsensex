@@ -603,58 +603,6 @@ elif page == "📊  Public Health Dashboard":
 
     df, h_index = run_model()
 
-    score_color = "#22c55e" if h_index>=75 else "#f97316" if h_index>=50 else "#ef4444"
-    status_text = "HEALTHY" if h_index>=75 else "MODERATE RISK" if h_index>=50 else "HIGH RISK"
-
-    col_idx, col_info = st.columns([1, 2.5], gap="large")
-
-    with col_idx:
-        st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #070d18, #0a1628, #07111e);
-            border: 2px solid #0f2a4a; border-radius: 12px;
-            padding: 2rem 1.5rem; text-align: center;
-            box-shadow: 0 0 40px rgba(20,80,160,0.15);
-        ">
-            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;
-                        letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;">
-                HEALTHSENSEX INDEX
-            </div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:5.5rem;
-                        font-weight:600;line-height:1;color:{score_color};margin:0.5rem 0;">
-                {h_index}
-            </div>
-            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.78rem;
-                        color:{score_color};letter-spacing:0.18em;opacity:0.9;">
-                {status_text}
-            </div>
-            <div style="font-size:0.65rem;color:#1e3a5a;margin-top:1rem;font-family:IBM Plex Mono;">
-                0 = CRISIS &nbsp;·&nbsp; 100 = PERFECT
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_info:
-        m1,m2,m3,m4 = st.columns(4)
-        m1.metric("📋 Total Records", f"{len(df):,}")
-        m2.metric("🚨 Anomalies", f"{df.Flagged.sum():,}", delta=f"{df.Flagged.mean()*100:.1f}%", delta_color="inverse")
-        m3.metric("🏥 Hospitals Monitored", "12")
-        m4.metric("💊 Disease Types Tracked", str(len(DISEASE_ABBR)))
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("""
-        <div style="background:#07111e;border:1px solid #0f2233;border-radius:6px;
-                    padding:0.9rem 1.2rem;font-size:0.8rem;color:#5a7a9a;line-height:1.8;">
-            <strong style="color:#d4830a;">What is HealthSensex Index?</strong><br>
-            Similar to how SENSEX tracks market health (0–30,000), HealthSensex tracks
-            national healthcare integrity on a <strong style="color:#e8f0f8;">0–100 scale</strong>.
-            Score drops when fraud, billing anomalies, or mortality spikes are detected.
-            Government officials receive alerts when the index falls below 70.
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("---")
-
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:0.8rem;">
         Disease Tracking Reference
@@ -673,13 +621,13 @@ elif page == "📊  Public Health Dashboard":
 
     st.markdown("---")
 
-    # ── DISEASE SPREAD SENSEX ─────────────────────────────────────────────────
+    # ── HEALTH SENSEX ─────────────────────────────────────────────────────────
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:1rem;">
-        🦠 Disease Spread Sensex
+        🦠 Health Sensex
         <span style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;color:#4a6a8a;
                      margin-left:1rem;letter-spacing:0.1em;text-transform:uppercase;">
-            Spread Index · 0 = Controlled · 100 = Critical Outbreak
+            Disease Spread Index · 0 = Controlled · 100 = Critical Outbreak
         </span>
     </div>
     """, unsafe_allow_html=True)
@@ -731,7 +679,7 @@ elif page == "📊  Public Health Dashboard":
                     box-shadow:0 0 40px rgba(239,68,68,0.08);">
             <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;
                         letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;">
-                SPREAD SENSEX
+                HEALTH SENSEX
             </div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:5.5rem;
                         font-weight:600;line-height:1;color:{sp_color};margin:0.5rem 0;">
@@ -987,14 +935,17 @@ elif page == "🔒  Govt Official Portal":
                         border:2px solid #0f2a4a;border-radius:12px;
                         padding:1.8rem 1.2rem;text-align:center;">
                 <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;font-family:IBM Plex Mono;">
-                    NATIONAL INDEX
+                    FRAUD SENSEX
                 </div>
                 <div style="font-family:'IBM Plex Mono',monospace;font-size:4.5rem;
                             font-weight:600;line-height:1;color:{score_color};margin:0.4rem 0;">
                     {h_index}
                 </div>
                 <div style="font-size:0.72rem;color:{score_color};letter-spacing:0.15em;">
-                    {"HEALTHY" if h_index>=75 else "MODERATE RISK" if h_index>=50 else "⚠️ HIGH RISK"}
+                    {"CLEAN" if h_index>=75 else "MODERATE FRAUD" if h_index>=50 else "⚠️ HIGH FRAUD"}
+                </div>
+                <div style="font-size:0.6rem;color:#1e3a5a;margin-top:0.6rem;font-family:IBM Plex Mono;">
+                    0 = CRITICAL &nbsp;·&nbsp; 100 = CLEAN
                 </div>
             </div>
             """, unsafe_allow_html=True)
