@@ -271,7 +271,45 @@ INDIA_STATES = [
     "Andaman & Nicobar Islands","Chandigarh","Dadra & Nagar Haveli",
     "Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"
 ]
-
+STATE_DATA = {
+    "Andhra Pradesh": {"districts": ["Visakhapatnam","Vijayawada","Guntur","Nellore","Kurnool","Tirupati","Anantapur","Kakinada","Rajahmundry","Eluru"], "pin_prefix": "5"},
+    "Arunachal Pradesh": {"districts": ["Itanagar","Naharlagun","Tawang","Ziro","Pasighat","Bomdila","Tezu","Aalo","Changlang","Khonsa"], "pin_prefix": "79"},
+    "Assam": {"districts": ["Guwahati","Dibrugarh","Silchar","Jorhat","Nagaon","Tinsukia","Bongaigaon","Karimganj","Hailakandi","Sivasagar"], "pin_prefix": "78"},
+    "Bihar": {"districts": ["Patna","Gaya","Muzaffarpur","Bhagalpur","Darbhanga","Arrah","Begusarai","Katihar","Munger","Purnia"], "pin_prefix": "8"},
+    "Chhattisgarh": {"districts": ["Raipur","Bilaspur","Durg","Korba","Rajnandgaon","Jagdalpur","Ambikapur","Raigarh","Dhamtari","Mahasamund"], "pin_prefix": "49"},
+    "Goa": {"districts": ["North Goa","South Goa","Panaji","Margao","Vasco da Gama","Mapusa","Ponda","Bicholim","Sanquelim","Curchorem"], "pin_prefix": "403"},
+    "Gujarat": {"districts": ["Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar","Jamnagar","Junagadh","Gandhinagar","Anand","Mehsana"], "pin_prefix": "38"},
+    "Haryana": {"districts": ["Gurugram","Faridabad","Ambala","Hisar","Karnal","Rohtak","Panipat","Sonipat","Yamunanagar","Bhiwani"], "pin_prefix": "1"},
+    "Himachal Pradesh": {"districts": ["Shimla","Dharamshala","Mandi","Solan","Kullu","Hamirpur","Una","Bilaspur","Chamba","Kinnaur"], "pin_prefix": "17"},
+    "Jharkhand": {"districts": ["Ranchi","Jamshedpur","Dhanbad","Bokaro","Deoghar","Hazaribagh","Giridih","Ramgarh","Dumka","Chaibasa"], "pin_prefix": "83"},
+    "Karnataka": {"districts": ["Bengaluru Urban","Mysuru","Hubballi","Mangaluru","Belagavi","Kalaburagi","Davanagere","Ballari","Tumakuru","Shivamogga"], "pin_prefix": "56"},
+    "Kerala": {"districts": ["Thiruvananthapuram","Kochi","Kozhikode","Thrissur","Kollam","Kannur","Alappuzha","Palakkad","Malappuram","Kottayam"], "pin_prefix": "67"},
+    "Madhya Pradesh": {"districts": ["Bhopal","Indore","Gwalior","Jabalpur","Ujjain","Sagar","Dewas","Satna","Ratlam","Rewa"], "pin_prefix": "45"},
+    "Maharashtra": {"districts": ["Mumbai","Pune","Nagpur","Thane","Nashik","Aurangabad","Solapur","Amravati","Kolhapur","Sangli"], "pin_prefix": "4"},
+    "Manipur": {"districts": ["Imphal West","Imphal East","Bishnupur","Thoubal","Churachandpur","Senapati","Ukhrul","Chandel","Tamenglong","Jiribam"], "pin_prefix": "795"},
+    "Meghalaya": {"districts": ["East Khasi Hills","West Khasi Hills","Ri Bhoi","East Garo Hills","West Garo Hills","South Garo Hills","Jaintia Hills","East Jaintia Hills","West Jaintia Hills","Eastern West Khasi Hills"], "pin_prefix": "793"},
+    "Mizoram": {"districts": ["Aizawl","Lunglei","Champhai","Serchhip","Kolasib","Lawngtlai","Mamit","Saiha","Saitual","Khawzawl"], "pin_prefix": "796"},
+    "Nagaland": {"districts": ["Kohima","Dimapur","Mokokchung","Tuensang","Wokha","Zunheboto","Phek","Mon","Longleng","Kiphire"], "pin_prefix": "797"},
+    "Odisha": {"districts": ["Bhubaneswar","Cuttack","Rourkela","Brahmapur","Sambalpur","Puri","Balasore","Baripada","Bhadrak","Jharsuguda"], "pin_prefix": "75"},
+    "Punjab": {"districts": ["Ludhiana","Amritsar","Jalandhar","Patiala","Bathinda","Mohali","Hoshiarpur","Gurdaspur","Ferozepur","Faridkot"], "pin_prefix": "14"},
+    "Rajasthan": {"districts": ["Jaipur","Jodhpur","Udaipur","Kota","Bikaner","Ajmer","Bhilwara","Alwar","Bharatpur","Sikar"], "pin_prefix": "30"},
+    "Sikkim": {"districts": ["East Sikkim","West Sikkim","North Sikkim","South Sikkim","Gyalshing","Namchi","Mangan","Soreng","Pakyong","Gangtok"], "pin_prefix": "737"},
+    "Tamil Nadu": {"districts": ["Chennai","Coimbatore","Madurai","Tiruchirappalli","Salem","Tirunelveli","Erode","Vellore","Thoothukudi","Dindigul"], "pin_prefix": "6"},
+    "Telangana": {"districts": ["Hyderabad","Warangal","Nizamabad","Khammam","Karimnagar","Ramagundam","Mahbubnagar","Nalgonda","Adilabad","Suryapet"], "pin_prefix": "5"},
+    "Tripura": {"districts": ["West Tripura","Agartala","North Tripura","South Tripura","Dhalai","Khowai","Gomati","Sepahijala","Unakoti","Sipahijala"], "pin_prefix": "799"},
+    "Uttar Pradesh": {"districts": ["Lucknow","Kanpur","Agra","Varanasi","Meerut","Allahabad","Ghaziabad","Noida","Bareilly","Aligarh"], "pin_prefix": "2"},
+    "Uttarakhand": {"districts": ["Dehradun","Haridwar","Nainital","Udham Singh Nagar","Pauri Garhwal","Chamoli","Tehri Garhwal","Almora","Pithoragarh","Bageshwar"], "pin_prefix": "24"},
+    "West Bengal": {"districts": ["Kolkata","Howrah","Hooghly","North 24 Parganas","South 24 Parganas","Burdwan","Midnapore East","Midnapore West","Murshidabad","Nadia"], "pin_prefix": "7"},
+    "Andaman & Nicobar Islands": {"districts": ["South Andaman","North & Middle Andaman","Nicobar"], "pin_prefix": "744"},
+    "Chandigarh": {"districts": ["Chandigarh"], "pin_prefix": "160"},
+    "Dadra & Nagar Haveli": {"districts": ["Dadra & Nagar Haveli"], "pin_prefix": "396"},
+    "Daman & Diu": {"districts": ["Daman","Diu"], "pin_prefix": "362"},
+    "Delhi": {"districts": ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"], "pin_prefix": "11"},
+    "Jammu & Kashmir": {"districts": ["Srinagar","Jammu","Anantnag","Baramulla","Pulwama","Shopian","Kulgam","Ganderbal","Bandipora","Budgam"], "pin_prefix": "18"},
+    "Ladakh": {"districts": ["Leh","Kargil"], "pin_prefix": "194"},
+    "Lakshadweep": {"districts": ["Lakshadweep"], "pin_prefix": "682"},
+    "Puducherry": {"districts": ["Puducherry","Karaikal","Mahe","Yanam"], "pin_prefix": "605"},
+}
 # ─────────────────────────────────────────────────────────────────────────────
 # DISEASE ABBR
 # ─────────────────────────────────────────────────────────────────────────────
@@ -472,10 +510,20 @@ if page == "🏥  Hospital Registration":
             col3, col4, col5 = st.columns(3)
             with col3:
                 state    = st.selectbox("State / UT *", ["— Select —"] + INDIA_STATES)
-            with col4:
-                district = st.text_input("District *", placeholder="e.g. South Delhi")
+           with col4:
+                if state != "— Select —" and state in STATE_DATA:
+                    dist_list = ["— Select District —"] + STATE_DATA[state]["districts"]
+                    dist_sel = st.selectbox("District *", dist_list)
+                    district = dist_sel if dist_sel != "— Select District —" else ""
+                else:
+                    st.selectbox("District *", ["— Select state first —"], disabled=True)
+                    district = ""
             with col5:
-                pincode  = st.text_input("PIN Code *", placeholder="110001", max_chars=6)
+                if state != "— Select —" and state in STATE_DATA:
+                    pin_pre = STATE_DATA[state]["pin_prefix"]
+                    pincode = st.text_input("PIN Code *", placeholder=f"{pin_pre}XXXX", max_chars=6)
+                else:
+                    pincode = st.text_input("PIN Code *", placeholder="110001", max_chars=6)
 
             st.markdown("<br>**SECTION C — Contact**", unsafe_allow_html=True)
             col6, col7 = st.columns(2)
