@@ -388,7 +388,7 @@ with st.sidebar:
     ABDM SYNC: Simulated<br>
     RECORDS: ~30,000+<br>
     MODEL: Isolation Forest<br>
-    BUILD: Kraken'X 2026
+    BUILD: Team GridMind
     </div>
     """, unsafe_allow_html=True)
 
