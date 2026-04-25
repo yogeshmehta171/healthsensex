@@ -188,6 +188,14 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 ::-webkit-scrollbar-track { background: #04080f; }
 ::-webkit-scrollbar-thumb { background: #0f2233; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #d4830a; }
+[data-testid="stSidebarCollapseButton"] svg {
+    display: none !important;
+}
+[data-testid="stSidebarCollapseButton"]::before {
+    content: "☰" !important;
+    color: #d4830a !important;
+    font-size: 1.2rem !important;
+}
 /* Hide sidebar collapse button */
 [data-testid="collapsedControl"] { display: none !important; }
 button[kind="header"] { display: none !important; }
