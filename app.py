@@ -762,7 +762,7 @@ elif page == "🔒  Govt Official Portal":
 
         pwd = st.text_input("Enter Access Code", type="password", placeholder="••••••••")
         if st.button("AUTHENTICATE →", use_container_width=True):
-            if pwd in ["gov2024", "yogesh123", "member2", "member3"]:
+            if pwd in ["gov2026", "goven125", "government", "modu"]:
                 st.session_state.govt_authed = True
                 st.rerun()
             else:
