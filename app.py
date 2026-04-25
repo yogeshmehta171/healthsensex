@@ -17,9 +17,9 @@ warnings.filterwarnings("ignore")
 
 st.set_page_config(
     page_title="HealthSensex — National Health Portal",
-    page_icon="🏛️",
+    page_icon="🩺",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -69,7 +69,14 @@ def init_db():
 init_db()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# GLOBAL CSS — Government portal aesthetic, deep navy + saffron + white
+# IST TIME — no external library needed, pure timedelta
+# ─────────────────────────────────────────────────────────────────────────────
+
+def get_ist_now():
+    return datetime.utcnow() + timedelta(hours=5, minutes=30)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GLOBAL CSS
 # ─────────────────────────────────────────────────────────────────────────────
 
 st.markdown("""
@@ -78,24 +85,47 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'IBM Plex Sans', sans-serif;
-    background-color: #04080f;
+    background-color: #04080f !important;
     color: #d4dce8;
 }
 
-/* Sidebar */
+/* ── Sidebar forced dark ── */
 [data-testid="stSidebar"] {
     background: #070d18 !important;
-    border-right: 1px solid #0f1e30;
+    border-right: 2px solid #d4830a !important;
 }
-[data-testid="stSidebar"] .stRadio label {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.88rem;
-    letter-spacing: 0.04em;
-    color: #7a9ab8;
-    padding: 6px 0;
+[data-testid="stSidebar"] * {
+    color: #a8c0d8 !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
 }
-[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] input:checked + div {
-    border-color: #d4830a !important;
+[data-testid="stSidebar"] .stRadio label,
+[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label p {
+    font-size: 0.9rem !important;
+    color: #a8c0d8 !important;
+    padding: 6px 0 !important;
+}
+[data-testid="stSidebar"] .stRadio > label > div > p {
+    color: #d4830a !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.15em !important;
+    font-weight: 600 !important;
+}
+[data-testid="stSidebar"] hr {
+    border-color: #0f2233 !important;
+}
+
+/* ── Sidebar collapse button — hide the text label only ── */
+[data-testid="stSidebarCollapseButton"] button {
+    background: #070d18 !important;
+    border: 1px solid #0f2233 !important;
+    color: #d4830a !important;
+}
+[data-testid="stSidebarCollapseButton"] button span {
+    display: none !important;
+}
+[data-testid="stSidebarCollapseButton"] button svg {
+    fill: #d4830a !important;
+    color: #d4830a !important;
 }
 
 /* Input fields */
@@ -180,6 +210,7 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 # ─────────────────────────────────────────────────────────────────────────────
 
 def render_header(subtitle=""):
+    ist_now = get_ist_now()
     st.markdown(f"""
     <div style="
         background: linear-gradient(135deg, #070d18 0%, #0a1628 60%, #07111e 100%);
@@ -219,7 +250,7 @@ def render_header(subtitle=""):
                 animation: blink 2s infinite;
             ">● LIVE SYSTEM</div>
             <div style="font-size: 0.65rem; color: #2a4a6a; margin-top: 6px; font-family: IBM Plex Mono;">
-                {(datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime('%d %b %Y  %H:%M IST')}
+                {ist_now.strftime('%d %b %Y  %H:%M IST')}
             </div>
         </div>
     </div>
@@ -241,61 +272,20 @@ INDIA_STATES = [
     "Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"
 ]
 
-
 # ─────────────────────────────────────────────────────────────────────────────
-# STATE → DISTRICTS + PINCODE PREFIX
+# DISEASE ABBR
 # ─────────────────────────────────────────────────────────────────────────────
-
-STATE_DATA = {
-    "Andhra Pradesh":      {"districts": ["Visakhapatnam","Vijayawada","Guntur","Nellore","Kurnool","Tirupati","Anantapur","Kakinada","Rajahmundry","Eluru"], "pin_prefix": "5"},
-    "Arunachal Pradesh":   {"districts": ["Itanagar","Naharlagun","Tawang","Ziro","Pasighat","Bomdila","Tezu","Aalo","Changlang","Khonsa"], "pin_prefix": "79"},
-    "Assam":               {"districts": ["Guwahati","Dibrugarh","Silchar","Jorhat","Nagaon","Tinsukia","Bongaigaon","Karimganj","Hailakandi","Sivasagar"], "pin_prefix": "78"},
-    "Bihar":               {"districts": ["Patna","Gaya","Muzaffarpur","Bhagalpur","Darbhanga","Arrah","Begusarai","Katihar","Munger","Purnia"], "pin_prefix": "8"},
-    "Chhattisgarh":        {"districts": ["Raipur","Bilaspur","Durg","Korba","Rajnandgaon","Jagdalpur","Ambikapur","Raigarh","Dhamtari","Mahasamund"], "pin_prefix": "49"},
-    "Goa":                 {"districts": ["North Goa","South Goa","Panaji","Margao","Vasco da Gama","Mapusa","Ponda","Bicholim","Sanquelim","Curchorem"], "pin_prefix": "403"},
-    "Gujarat":             {"districts": ["Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar","Jamnagar","Junagadh","Gandhinagar","Anand","Mehsana"], "pin_prefix": "38"},
-    "Haryana":             {"districts": ["Gurugram","Faridabad","Ambala","Hisar","Karnal","Rohtak","Panipat","Sonipat","Yamunanagar","Bhiwani"], "pin_prefix": "1"},
-    "Himachal Pradesh":    {"districts": ["Shimla","Dharamshala","Mandi","Solan","Kullu","Hamirpur","Una","Bilaspur","Chamba","Kinnaur"], "pin_prefix": "17"},
-    "Jharkhand":           {"districts": ["Ranchi","Jamshedpur","Dhanbad","Bokaro","Deoghar","Hazaribagh","Giridih","Ramgarh","Dumka","Chaibasa"], "pin_prefix": "83"},
-    "Karnataka":           {"districts": ["Bengaluru Urban","Mysuru","Hubballi","Mangaluru","Belagavi","Kalaburagi","Davanagere","Ballari","Tumakuru","Shivamogga"], "pin_prefix": "56"},
-    "Kerala":              {"districts": ["Thiruvananthapuram","Kochi","Kozhikode","Thrissur","Kollam","Kannur","Alappuzha","Palakkad","Malappuram","Kottayam"], "pin_prefix": "67"},
-    "Madhya Pradesh":      {"districts": ["Bhopal","Indore","Gwalior","Jabalpur","Ujjain","Sagar","Dewas","Satna","Ratlam","Rewa"], "pin_prefix": "45"},
-    "Maharashtra":         {"districts": ["Mumbai","Pune","Nagpur","Thane","Nashik","Aurangabad","Solapur","Amravati","Kolhapur","Sangli"], "pin_prefix": "4"},
-    "Manipur":             {"districts": ["Imphal West","Imphal East","Bishnupur","Thoubal","Churachandpur","Senapati","Ukhrul","Chandel","Tamenglong","Jiribam"], "pin_prefix": "795"},
-    "Meghalaya":           {"districts": ["East Khasi Hills","West Khasi Hills","Ri Bhoi","East Garo Hills","West Garo Hills","South Garo Hills","Jaintia Hills","East Jaintia Hills","West Jaintia Hills","Eastern West Khasi Hills"], "pin_prefix": "793"},
-    "Mizoram":             {"districts": ["Aizawl","Lunglei","Champhai","Serchhip","Kolasib","Lawngtlai","Mamit","Saiha","Saitual","Khawzawl"], "pin_prefix": "796"},
-    "Nagaland":            {"districts": ["Kohima","Dimapur","Mokokchung","Tuensang","Wokha","Zunheboto","Phek","Mon","Longleng","Kiphire"], "pin_prefix": "797"},
-    "Odisha":              {"districts": ["Bhubaneswar","Cuttack","Rourkela","Brahmapur","Sambalpur","Puri","Balasore","Baripada","Bhadrak","Jharsuguda"], "pin_prefix": "75"},
-    "Punjab":              {"districts": ["Ludhiana","Amritsar","Jalandhar","Patiala","Bathinda","Mohali","Hoshiarpur","Gurdaspur","Ferozepur","Faridkot"], "pin_prefix": "14"},
-    "Rajasthan":           {"districts": ["Jaipur","Jodhpur","Udaipur","Kota","Bikaner","Ajmer","Bhilwara","Alwar","Bharatpur","Sikar"], "pin_prefix": "30"},
-    "Sikkim":              {"districts": ["East Sikkim","West Sikkim","North Sikkim","South Sikkim","Gyalshing","Namchi","Mangan","Soreng","Pakyong","Gangtok"], "pin_prefix": "737"},
-    "Tamil Nadu":          {"districts": ["Chennai","Coimbatore","Madurai","Tiruchirappalli","Salem","Tirunelveli","Erode","Vellore","Thoothukudi","Dindigul"], "pin_prefix": "6"},
-    "Telangana":           {"districts": ["Hyderabad","Warangal","Nizamabad","Khammam","Karimnagar","Ramagundam","Mahbubnagar","Nalgonda","Adilabad","Suryapet"], "pin_prefix": "5"},
-    "Tripura":             {"districts": ["West Tripura","Agartala","North Tripura","South Tripura","Dhalai","Khowai","Gomati","Sepahijala","Unakoti","Sipahijala"], "pin_prefix": "799"},
-    "Uttar Pradesh":       {"districts": ["Lucknow","Kanpur","Agra","Varanasi","Meerut","Allahabad","Ghaziabad","Noida","Bareilly","Aligarh"], "pin_prefix": "2"},
-    "Uttarakhand":         {"districts": ["Dehradun","Haridwar","Nainital","Udham Singh Nagar","Pauri Garhwal","Chamoli","Tehri Garhwal","Almora","Pithoragarh","Bageshwar"], "pin_prefix": "24"},
-    "West Bengal":         {"districts": ["Kolkata","Howrah","Hooghly","North 24 Parganas","South 24 Parganas","Burdwan","Midnapore East","Midnapore West","Murshidabad","Nadia"], "pin_prefix": "7"},
-    "Andaman & Nicobar Islands": {"districts": ["South Andaman","North & Middle Andaman","Nicobar"], "pin_prefix": "744"},
-    "Chandigarh":          {"districts": ["Chandigarh"], "pin_prefix": "160"},
-    "Dadra & Nagar Haveli": {"districts": ["Dadra & Nagar Haveli"], "pin_prefix": "396"},
-    "Daman & Diu":         {"districts": ["Daman","Diu"], "pin_prefix": "362"},
-    "Delhi":               {"districts": ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"], "pin_prefix": "11"},
-    "Jammu & Kashmir":     {"districts": ["Srinagar","Jammu","Anantnag","Baramulla","Pulwama","Shopian","Kulgam","Ganderbal","Bandipora","Budgam"], "pin_prefix": "18"},
-    "Ladakh":              {"districts": ["Leh","Kargil"], "pin_prefix": "194"},
-    "Lakshadweep":         {"districts": ["Lakshadweep"], "pin_prefix": "682"},
-    "Puducherry":          {"districts": ["Puducherry","Karaikal","Mahe","Yanam"], "pin_prefix": "605"},
-}
 
 DISEASE_ABBR = {
     "Dengue": "DEN", "Tuberculosis": "TB", "Malaria": "MAL",
-    "Typhoid": "TYP", "COVID-19": "COV", "Cardiac": "CAR",
-    "Orthopedic": "ORT", "Cancer": "CAN", "Cholera": "CHL",
+    "Typhoid": "TYP", "COVID-19": "COV", "GBS (Guillain-Barré)": "GBS",
+    "Influenza": "FLU", "Cancer": "CAN", "Cholera": "CHL",
     "Pneumonia": "PNE", "Hepatitis B": "HEP-B", "HIV/AIDS": "HIV",
     "Chikungunya": "CHK", "Japanese Encephalitis": "JE", "Leptospirosis": "LEP"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SYNTHETIC DATA (same as existing prototype + region info)
+# SYNTHETIC DATA
 # ─────────────────────────────────────────────────────────────────────────────
 
 @st.cache_data
@@ -306,7 +296,8 @@ def generate_data(seed=42):
     date_range  = pd.date_range("2024-01-01", "2024-12-31", freq="D")
     hosp_ids    = [f"HOSP-{str(i).zfill(3)}" for i in range(1, N_HOSPITALS+1)]
     dr_ids      = [f"DR-{str(i).zfill(4)}" for i in range(1, N_DOCTORS+1)]
-    diseases    = list(DISEASE_ABBR.keys())[:8]
+    diseases    = ["Dengue", "Tuberculosis", "Malaria", "Typhoid",
+                   "COVID-19", "GBS (Guillain-Barré)", "Influenza", "Cancer"]
     states      = ["Maharashtra","Delhi","Karnataka","Tamil Nadu","Uttar Pradesh",
                    "Gujarat","West Bengal","Rajasthan","Kerala","Telangana",
                    "Punjab","Madhya Pradesh"]
@@ -328,7 +319,6 @@ def generate_data(seed=42):
                 })
     df = pd.DataFrame(records)
 
-    # Fraud injection
     m1 = (df.Hospital_ID=="HOSP-007")&(df.Disease_Type=="Dengue")&(df.Date>="2024-06-01")&(df.Date<="2024-06-14")
     df.loc[m1,"Daily_Billing_Amount"] *= 10
     df.loc[m1,"_fraud_label"] = "Billing Spike"
@@ -378,7 +368,7 @@ with st.sidebar:
         <div style="font-family:'Source Serif 4',serif;font-size:1.1rem;color:#d4830a;font-weight:700;">
             HealthSensex
         </div>
-        <div style="font-size:0.65rem;color:#2a4a6a;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">
+        <div style="font-size:0.65rem;color:#4a7aaa;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">
             National Health Portal
         </div>
     </div>
@@ -393,12 +383,12 @@ with st.sidebar:
 
     st.markdown("""
     <hr style="border:none;border-top:1px solid #0f2233;margin:1rem 0 0.5rem 0;">
-    <div style="font-size:0.62rem;color:#1a3050;font-family:IBM Plex Mono;line-height:2;">
+    <div style="font-size:0.62rem;color:#3a6a9a;font-family:IBM Plex Mono;line-height:2;">
     DATA SOURCE: Synthetic (Demo)<br>
     ABDM SYNC: Simulated<br>
     RECORDS: ~30,000+<br>
     MODEL: Isolation Forest<br>
-    BUILD: Kraken'X 2026
+    BUILD: Team GridMind
     </div>
     """, unsafe_allow_html=True)
 
@@ -410,7 +400,6 @@ with st.sidebar:
 if page == "🏥  Hospital Registration":
     render_header("Hospital Registration System")
 
-    # Stats row
     conn = get_conn()
     total_reg = pd.read_sql("SELECT COUNT(*) as c FROM hospitals", conn).iloc[0,0]
     verified  = pd.read_sql("SELECT COUNT(*) as c FROM hospitals WHERE status='Verified'", conn).iloc[0,0]
@@ -425,7 +414,6 @@ if page == "🏥  Hospital Registration":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Info banner
     st.markdown("""
     <div style="
         background: #07111e; border: 1px solid #0f2233;
@@ -444,7 +432,6 @@ if page == "🏥  Hospital Registration":
 
     tab1, tab2 = st.tabs(["📝  New Registration", "🔍  Verify / Check Status"])
 
-    # ── TAB 1: Registration Form ──────────────────────────────────────────────
     with tab1:
         st.markdown("""
         <div style="font-family:'Source Serif 4',serif;font-size:1.2rem;color:#a8c8e8;
@@ -484,21 +471,11 @@ if page == "🏥  Hospital Registration":
             st.markdown("<br>**SECTION B — Location**", unsafe_allow_html=True)
             col3, col4, col5 = st.columns(3)
             with col3:
-                state = st.selectbox("State / UT *", ["— Select —"] + INDIA_STATES)
+                state    = st.selectbox("State / UT *", ["— Select —"] + INDIA_STATES)
             with col4:
-                if state != "— Select —" and state in STATE_DATA:
-                    district_options = ["— Select District —"] + STATE_DATA[state]["districts"]
-                    district_sel = st.selectbox("District *", district_options)
-                    district = district_sel if district_sel != "— Select District —" else ""
-                else:
-                    district = st.text_input("District *", placeholder="Select state first")
+                district = st.text_input("District *", placeholder="e.g. South Delhi")
             with col5:
-                if state != "— Select —" and state in STATE_DATA:
-                    pin_prefix = STATE_DATA[state]["pin_prefix"]
-                    pincode = st.text_input("PIN Code *", placeholder=f"{pin_prefix}XXXX", max_chars=6,
-                                           help=f"PIN codes in {state} start with {pin_prefix}")
-                else:
-                    pincode = st.text_input("PIN Code *", placeholder="110001", max_chars=6)
+                pincode  = st.text_input("PIN Code *", placeholder="110001", max_chars=6)
 
             st.markdown("<br>**SECTION C — Contact**", unsafe_allow_html=True)
             col6, col7 = st.columns(2)
@@ -544,7 +521,7 @@ if page == "🏥  Hospital Registration":
                           hosp_type, state, district.strip(), pincode.strip(),
                           beds, email.strip(), phone.strip(), ms_name.strip()))
                     conn.commit()
-                    ref_id = f"HSX{datetime.now().strftime('%Y%m%d%H%M%S')}"
+                    ref_id = f"HSX{get_ist_now().strftime('%Y%m%d%H%M%S')}"
                     conn.close()
                     st.success(f"""
                     ✅ **Registration Submitted Successfully**
@@ -559,7 +536,6 @@ if page == "🏥  Hospital Registration":
                 except sqlite3.IntegrityError:
                     st.error("⚠️ A hospital with this Registration Number already exists in the system.")
 
-    # ── TAB 2: Check Status ───────────────────────────────────────────────────
     with tab2:
         st.markdown("""
         <div style="font-family:'Source Serif 4',serif;font-size:1.2rem;color:#a8c8e8;
@@ -604,7 +580,6 @@ if page == "🏥  Hospital Registration":
                 else:
                     st.warning("No hospital found with that registration number.")
 
-        # Show all registered hospitals (demo data)
         st.markdown("<br>**All Registered Hospitals (Demo Data)**", unsafe_allow_html=True)
         conn = get_conn()
         all_hosps = pd.read_sql(
@@ -628,60 +603,6 @@ elif page == "📊  Public Health Dashboard":
 
     df, h_index = run_model()
 
-    # ── HealthSensex Index ────────────────────────────────────────────────────
-    score_color = "#22c55e" if h_index>=75 else "#f97316" if h_index>=50 else "#ef4444"
-    status_text = "HEALTHY" if h_index>=75 else "MODERATE RISK" if h_index>=50 else "HIGH RISK"
-
-    col_idx, col_info = st.columns([1, 2.5], gap="large")
-
-    with col_idx:
-        st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #070d18, #0a1628, #07111e);
-            border: 2px solid #0f2a4a; border-radius: 12px;
-            padding: 2rem 1.5rem; text-align: center;
-            box-shadow: 0 0 40px rgba(20,80,160,0.15);
-        ">
-            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;
-                        letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;">
-                HEALTHSENSEX INDEX
-            </div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:5.5rem;
-                        font-weight:600;line-height:1;color:{score_color};margin:0.5rem 0;">
-                {h_index}
-            </div>
-            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.78rem;
-                        color:{score_color};letter-spacing:0.18em;opacity:0.9;">
-                {status_text}
-            </div>
-            <div style="font-size:0.65rem;color:#1e3a5a;margin-top:1rem;font-family:IBM Plex Mono;">
-                0 = CRISIS &nbsp;·&nbsp; 100 = PERFECT
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_info:
-        m1,m2,m3,m4 = st.columns(4)
-        m1.metric("📋 Total Records", f"{len(df):,}")
-        m2.metric("🚨 Anomalies", f"{df.Flagged.sum():,}", delta=f"{df.Flagged.mean()*100:.1f}%", delta_color="inverse")
-        m3.metric("🏥 Hospitals Monitored", "12")
-        m4.metric("💊 Disease Types Tracked", str(len(DISEASE_ABBR)))
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("""
-        <div style="background:#07111e;border:1px solid #0f2233;border-radius:6px;
-                    padding:0.9rem 1.2rem;font-size:0.8rem;color:#5a7a9a;line-height:1.8;">
-            <strong style="color:#d4830a;">What is HealthSensex Index?</strong><br>
-            Similar to how SENSEX tracks market health (0–30,000), HealthSensex tracks
-            national healthcare integrity on a <strong style="color:#e8f0f8;">0–100 scale</strong>.
-            Score drops when fraud, billing anomalies, or mortality spikes are detected.
-            Government officials receive alerts when the index falls below 70.
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("---")
-
-    # ── Disease Abbreviation Reference ───────────────────────────────────────
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:0.8rem;">
         Disease Tracking Reference
@@ -700,7 +621,158 @@ elif page == "📊  Public Health Dashboard":
 
     st.markdown("---")
 
-    # ── Charts ────────────────────────────────────────────────────────────────
+    # ── HEALTH SENSEX ─────────────────────────────────────────────────────────
+    st.markdown("""
+    <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:1rem;">
+        🦠 Health Sensex
+        <span style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;color:#4a6a8a;
+                     margin-left:1rem;letter-spacing:0.1em;text-transform:uppercase;">
+            Disease Spread Index · 0 = Controlled · 100 = Critical Outbreak
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    @st.cache_data
+    def compute_spread_sensex(seed=42):
+        np.random.seed(seed)
+        df_ = generate_data(seed)
+        df_["Month"] = df_["Date"].dt.to_period("M")
+        monthly_cases = df_.groupby(["Disease_Type","Month"]).size().reset_index(name="Cases")
+        monthly_cases["Month_dt"] = monthly_cases["Month"].dt.to_timestamp()
+
+        disease_scores = {}
+        for disease in df_["Disease_Type"].unique():
+            d = monthly_cases[monthly_cases.Disease_Type==disease].sort_values("Month_dt")
+            if len(d) >= 2:
+                growth = (d["Cases"].iloc[-1] - d["Cases"].iloc[-2]) / (d["Cases"].iloc[-2] + 1e-6)
+                score  = min(100, max(0, round(40*growth + d["Cases"].mean()/30, 1)))
+            else:
+                score = 0.0
+            disease_scores[disease] = score
+
+        state_cases = df_.groupby(["State","Month"]).size().reset_index(name="Cases")
+        state_cases["Month_dt"] = state_cases["Month"].dt.to_timestamp()
+        state_scores = {}
+        for state in df_["State"].unique():
+            d = state_cases[state_cases.State==state].sort_values("Month_dt")
+            if len(d) >= 2:
+                growth = (d["Cases"].iloc[-1] - d["Cases"].iloc[-2]) / (d["Cases"].iloc[-2] + 1e-6)
+                score  = min(100, max(0, round(40*growth + d["Cases"].mean()/20, 1)))
+            else:
+                score = 0.0
+            state_scores[state] = score
+
+        overall = round(np.mean(list(disease_scores.values())), 1)
+        return disease_scores, state_scores, overall, monthly_cases
+
+    disease_scores, state_scores, overall_spread, monthly_cases = compute_spread_sensex()
+
+    sp_color = "#ef4444" if overall_spread>=70 else "#f97316" if overall_spread>=40 else "#22c55e"
+    sp_text  = "CRITICAL" if overall_spread>=70 else "MODERATE" if overall_spread>=40 else "CONTROLLED"
+
+    col_sp, col_sp_info = st.columns([1, 2.5], gap="large")
+    with col_sp:
+        st.markdown(f"""
+        <div style="background:linear-gradient(135deg,#070d18,#0a1628,#07111e);
+                    border:2px solid #0f2a4a;border-radius:12px;
+                    padding:2rem 1.5rem;text-align:center;
+                    box-shadow:0 0 40px rgba(239,68,68,0.08);">
+            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.7rem;
+                        letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;">
+                HEALTH SENSEX
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:5.5rem;
+                        font-weight:600;line-height:1;color:{sp_color};margin:0.5rem 0;">
+                {overall_spread}
+            </div>
+            <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.78rem;
+                        color:{sp_color};letter-spacing:0.18em;opacity:0.9;">
+                {sp_text}
+            </div>
+            <div style="font-size:0.65rem;color:#1e3a5a;margin-top:1rem;font-family:IBM Plex Mono;">
+                0 = CONTROLLED &nbsp;·&nbsp; 100 = CRITICAL
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_sp_info:
+        st.markdown("""
+        <div style="font-size:0.72rem;color:#4a6a8a;letter-spacing:0.1em;text-transform:uppercase;
+                    margin-bottom:0.8rem;">Disease-wise Spread Index</div>
+        """, unsafe_allow_html=True)
+        d_cols = st.columns(2)
+        for i, (disease, score) in enumerate(sorted(disease_scores.items(), key=lambda x: -x[1])):
+            abbr = DISEASE_ABBR.get(disease, disease[:3].upper())
+            dclr = "#ef4444" if score>=70 else "#f97316" if score>=40 else "#22c55e"
+            with d_cols[i % 2]:
+                st.markdown(f"""
+                <div style="background:#07111e;border:1px solid #0f2233;border-radius:6px;
+                            padding:0.6rem 0.9rem;margin-bottom:0.5rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                        <div>
+                            <span style="font-family:IBM Plex Mono,monospace;font-size:0.88rem;
+                                         color:#d4830a;font-weight:600;">{abbr}</span>
+                            <span style="font-size:0.75rem;color:#5a7a9a;margin-left:0.5rem;">{disease}</span>
+                        </div>
+                        <span style="font-family:IBM Plex Mono,monospace;font-size:0.85rem;
+                                     color:{dclr};font-weight:600;">{score}</span>
+                    </div>
+                    <div style="background:#0a1828;border-radius:3px;height:5px;width:100%;">
+                        <div style="background:{dclr};height:5px;border-radius:3px;width:{int(score)}%;"></div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col_st1, col_st2 = st.columns(2, gap="large")
+
+    with col_st1:
+        st.markdown("**State-wise Disease Spread Index**")
+        state_df = pd.DataFrame({
+            "State": list(state_scores.keys()),
+            "Spread Index": list(state_scores.values())
+        }).sort_values("Spread Index", ascending=True)
+        fig_state = go.Figure(go.Bar(
+            x=state_df["Spread Index"], y=state_df["State"],
+            orientation="h",
+            marker=dict(color=state_df["Spread Index"],
+                        colorscale=[[0,"#16a34a"],[0.4,"#f97316"],[1,"#ef4444"]],
+                        showscale=False)
+        ))
+        fig_state.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
+            margin=dict(l=0,r=0,t=10,b=0), height=360,
+            xaxis=dict(gridcolor="#0f2233", range=[0,100]),
+            yaxis=dict(gridcolor="#0f2233"),
+        )
+        st.plotly_chart(fig_state, use_container_width=True)
+
+    with col_st2:
+        st.markdown("**Disease Spread Trend (Monthly Cases)**")
+        colors_list = ["#d4830a","#ef4444","#3b82f6","#22c55e","#a855f7","#f97316","#06b6d4","#eab308"]
+        fig_trend = go.Figure()
+        for i, disease in enumerate(disease_scores.keys()):
+            d = monthly_cases[monthly_cases.Disease_Type==disease].sort_values("Month_dt")
+            fig_trend.add_trace(go.Scatter(
+                x=d["Month_dt"], y=d["Cases"],
+                mode="lines", name=DISEASE_ABBR.get(disease, disease[:3]),
+                line=dict(color=colors_list[i % len(colors_list)], width=1.5),
+            ))
+        fig_trend.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
+            legend=dict(bgcolor="#07111e", bordercolor="#0f2233", font_size=9,
+                        orientation="h", yanchor="bottom", y=1.02),
+            margin=dict(l=0,r=0,t=30,b=0), height=360,
+            xaxis=dict(gridcolor="#0f2233"),
+            yaxis=dict(gridcolor="#0f2233"),
+        )
+        st.plotly_chart(fig_trend, use_container_width=True)
+
+    st.markdown("---")
+
     col_a, col_b = st.columns(2, gap="large")
 
     with col_a:
@@ -724,26 +796,82 @@ elif page == "📊  Public Health Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
     with col_b:
-        st.markdown("**Monthly Billing Trend (National)**")
-        monthly = df.groupby(df.Date.dt.to_period("M"))["Daily_Billing_Amount"].sum().reset_index()
-        monthly["Date"] = monthly["Date"].astype(str)
-        fig2 = go.Figure()
-        fig2.add_trace(go.Scatter(
-            x=monthly.Date, y=monthly.Daily_Billing_Amount,
-            mode="lines+markers", line=dict(color="#d4830a", width=2),
-            marker=dict(size=4), name="Total Billing",
-            fill="tozeroy", fillcolor="rgba(212,131,10,0.08)"
-        ))
+        st.markdown("**Disease vs Death Rate Correlation**")
+        corr_df = df.groupby("Disease_Type").agg(
+            Cases=("Daily_Billing_Amount","count"),
+            Deaths=("Death_Certs_Signed","sum")
+        ).reset_index()
+        corr_df["Death_Rate"] = (corr_df["Deaths"] / corr_df["Cases"] * 100).round(2)
+        corr_df["Abbr"] = corr_df["Disease_Type"].map(lambda x: DISEASE_ABBR.get(x, x[:3]))
+        fig2 = px.scatter(
+            corr_df, x="Cases", y="Death_Rate",
+            text="Abbr", size="Deaths",
+            color="Death_Rate",
+            color_continuous_scale=[[0,"#22c55e"],[0.5,"#f97316"],[1,"#ef4444"]],
+            template="plotly_dark",
+        )
+        fig2.update_traces(textposition="top center", marker=dict(sizemin=8))
         fig2.update_layout(
             paper_bgcolor="#07111e", plot_bgcolor="#04080f",
             font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
-            margin=dict(l=0,r=0,t=10,b=0), height=320, showlegend=False,
-            xaxis=dict(gridcolor="#0f2233", tickangle=-30),
-            yaxis=dict(gridcolor="#0f2233"),
+            margin=dict(l=0,r=0,t=10,b=0), height=320,
+            xaxis=dict(gridcolor="#0f2233", title="Total Cases"),
+            yaxis=dict(gridcolor="#0f2233", title="Death Rate (%)"),
+            coloraxis_showscale=False,
         )
         st.plotly_chart(fig2, use_container_width=True)
 
-    # ── Outbreak Alerts ───────────────────────────────────────────────────────
+    # ── Outbreak Timeline + Heatmap ───────────────────────────────────────────
+    st.markdown("---")
+    col_c, col_d = st.columns(2, gap="large")
+
+    with col_c:
+        st.markdown("**Disease Outbreak Timeline**")
+        timeline_df = df.groupby([df.Date.dt.to_period("M"), "Disease_Type"]).size().reset_index(name="Cases")
+        timeline_df["Date"] = timeline_df["Date"].dt.to_timestamp()
+        colors_list = ["#d4830a","#ef4444","#3b82f6","#22c55e","#a855f7","#f97316","#06b6d4","#eab308"]
+        fig_tl = go.Figure()
+        for i, disease in enumerate(df["Disease_Type"].unique()):
+            d = timeline_df[timeline_df.Disease_Type==disease]
+            fig_tl.add_trace(go.Scatter(
+                x=d["Date"], y=d["Cases"],
+                mode="lines", name=DISEASE_ABBR.get(disease, disease[:3]),
+                line=dict(color=colors_list[i % len(colors_list)], width=1.8),
+                fill="tozeroy" if i==0 else "none",
+                fillcolor="rgba(212,131,10,0.04)"
+            ))
+        fig_tl.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=11),
+            legend=dict(bgcolor="#07111e", bordercolor="#0f2233", font_size=9,
+                        orientation="h", yanchor="bottom", y=1.02),
+            margin=dict(l=0,r=0,t=30,b=0), height=320,
+            xaxis=dict(gridcolor="#0f2233"),
+            yaxis=dict(gridcolor="#0f2233", title="Cases"),
+        )
+        st.plotly_chart(fig_tl, use_container_width=True)
+
+    with col_d:
+        st.markdown("**State-wise Disease Heatmap**")
+        heatmap_df = df.groupby(["State","Disease_Type"]).size().reset_index(name="Cases")
+        heatmap_pivot = heatmap_df.pivot(index="State", columns="Disease_Type", values="Cases").fillna(0)
+        heatmap_pivot.columns = [DISEASE_ABBR.get(c, c[:3]) for c in heatmap_pivot.columns]
+        fig_hm = go.Figure(go.Heatmap(
+            z=heatmap_pivot.values,
+            x=heatmap_pivot.columns.tolist(),
+            y=heatmap_pivot.index.tolist(),
+            colorscale=[[0,"#04080f"],[0.3,"#0a2a4a"],[0.6,"#d4830a"],[1,"#ef4444"]],
+            showscale=True,
+            colorbar=dict(thickness=10, tickfont=dict(color="#5a7a9a", size=9)),
+        ))
+        fig_hm.update_layout(
+            paper_bgcolor="#07111e", plot_bgcolor="#04080f",
+            font=dict(family="IBM Plex Sans", color="#7a9ab8", size=10),
+            margin=dict(l=0,r=0,t=10,b=0), height=320,
+            xaxis=dict(tickangle=-30),
+        )
+        st.plotly_chart(fig_hm, use_container_width=True)
+
     st.markdown("---")
     st.markdown("""
     <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;margin-bottom:0.8rem;">
@@ -755,7 +883,6 @@ elif page == "📊  Public Health Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
-    # Simulate outbreak detection
     df_sorted = df.sort_values(["State","Disease_Type","Date"])
     df_sorted["7d_avg"] = df_sorted.groupby(["State","Disease_Type"])["Daily_Billing_Amount"].transform(
         lambda x: x.rolling(7, min_periods=1).mean())
@@ -797,7 +924,8 @@ elif page == "📊  Public Health Dashboard":
 elif page == "🔒  Govt Official Portal":
     render_header("Government Official Access — Restricted")
 
-    # Simple password gate
+    VALID_PASSWORDS = {"gov2026", "goven125", "government", "modu"}
+
     if "govt_authed" not in st.session_state:
         st.session_state.govt_authed = False
 
@@ -817,7 +945,7 @@ elif page == "🔒  Govt Official Portal":
 
         pwd = st.text_input("Enter Access Code", type="password", placeholder="••••••••")
         if st.button("AUTHENTICATE →", use_container_width=True):
-            if pwd in ["gov2024", "yogesh123", "member2", "member3"]:
+            if pwd in VALID_PASSWORDS:
                 st.session_state.govt_authed = True
                 st.rerun()
             else:
@@ -834,21 +962,20 @@ elif page == "🔒  Govt Official Portal":
     else:
         df, h_index = run_model()
 
-        # ── Logout ────────────────────────────────────────────────────────────
         col_title, col_logout = st.columns([4,1])
         with col_logout:
             if st.button("🔓 Logout"):
                 st.session_state.govt_authed = False
                 st.rerun()
 
-        # ── Welcome banner ────────────────────────────────────────────────────
+        ist_now = get_ist_now()
         st.markdown(f"""
         <div style="background:#071a0e;border:1px solid #0f3a1e;border-radius:6px;
                     padding:0.9rem 1.4rem;margin-bottom:1.5rem;
                     display:flex;align-items:center;justify-content:space-between;">
             <span style="color:#16a34a;font-size:0.83rem;">
                 ✅ Authenticated · Official Portal Active ·
-                Access logged at {datetime.now().strftime('%H:%M IST')}
+                Access logged at {ist_now.strftime('%H:%M IST')}
             </span>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#0f3a1e;">
                 SESSION SECURED
@@ -856,7 +983,6 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
-        # ── Score + KPIs ──────────────────────────────────────────────────────
         score_color = "#22c55e" if h_index>=75 else "#f97316" if h_index>=50 else "#ef4444"
         col_idx, col_kpi = st.columns([1,3], gap="large")
 
@@ -866,14 +992,17 @@ elif page == "🔒  Govt Official Portal":
                         border:2px solid #0f2a4a;border-radius:12px;
                         padding:1.8rem 1.2rem;text-align:center;">
                 <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:#4a6a8a;font-family:IBM Plex Mono;">
-                    NATIONAL INDEX
+                    FRAUD SENSEX
                 </div>
                 <div style="font-family:'IBM Plex Mono',monospace;font-size:4.5rem;
                             font-weight:600;line-height:1;color:{score_color};margin:0.4rem 0;">
                     {h_index}
                 </div>
                 <div style="font-size:0.72rem;color:{score_color};letter-spacing:0.15em;">
-                    {"HEALTHY" if h_index>=75 else "MODERATE RISK" if h_index>=50 else "⚠️ HIGH RISK"}
+                    {"CLEAN" if h_index>=75 else "MODERATE FRAUD" if h_index>=50 else "⚠️ HIGH FRAUD"}
+                </div>
+                <div style="font-size:0.6rem;color:#1e3a5a;margin-top:0.6rem;font-family:IBM Plex Mono;">
+                    0 = CRITICAL &nbsp;·&nbsp; 100 = CLEAN
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -888,7 +1017,6 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("---")
 
-        # ── Fraud Flags Table ─────────────────────────────────────────────────
         st.markdown("""
         <div style="font-family:'Source Serif 4',serif;font-size:1.15rem;color:#a8c8e8;
                     margin-bottom:0.8rem;">
@@ -900,7 +1028,6 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
-        # Active alert banner
         top_hosp = flagged_df.Hospital_ID.value_counts().idxmax() if len(flagged_df)>0 else "N/A"
         st.markdown(f"""
         <div style="background:#1a0a0a;border:1px solid #3a1010;border-left:4px solid #ef4444;
@@ -912,7 +1039,6 @@ elif page == "🔒  Govt Official Portal":
         </div>
         """, unsafe_allow_html=True)
 
-        # Filter controls
         fc1, fc2, fc3 = st.columns(3)
         with fc1:
             sel_hosp = st.multiselect("Filter Hospital", df.Hospital_ID.unique().tolist(), default=df.Hospital_ID.unique().tolist())
@@ -953,7 +1079,6 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("---")
 
-        # ── Action Buttons ────────────────────────────────────────────────────
         st.markdown("**Official Actions**")
         ac1, ac2, ac3, ac4 = st.columns(4)
         with ac1:
@@ -977,7 +1102,6 @@ elif page == "🔒  Govt Official Portal":
 
         st.markdown("---")
 
-        # ── Charts ────────────────────────────────────────────────────────────
         col_c1, col_c2 = st.columns(2, gap="large")
 
         with col_c1:
@@ -1001,7 +1125,6 @@ elif page == "🔒  Govt Official Portal":
                                legend=dict(bgcolor="#07111e"))
             st.plotly_chart(fig2, use_container_width=True)
 
-        # ── Registered Hospitals Management ───────────────────────────────────
         st.markdown("---")
         with st.expander("🏥 Manage Hospital Registrations", expanded=False):
             conn = get_conn()
@@ -1015,7 +1138,7 @@ elif page == "🔒  Govt Official Portal":
                     if st.button("✅ Mark as Verified"):
                         conn = get_conn()
                         conn.execute("UPDATE hospitals SET status='Verified', verified_at=? WHERE id=?",
-                                     (datetime.now().isoformat(), int(verify_id)))
+                                     (get_ist_now().isoformat(), int(verify_id)))
                         conn.execute("INSERT INTO audit_log (action,hospital_id,performed_by) VALUES (?,?,?)",
                                      ("VERIFIED", int(verify_id), "govt_official"))
                         conn.commit(); conn.close()
@@ -1034,9 +1157,9 @@ elif page == "🔒  Govt Official Portal":
 # FOOTER
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style="text-align:center;padding:2rem 0 0.5rem 0;
-            font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#0f2233;border-top:1px solid #0a1828;margin-top:2rem;">
-    HealthSensex AI &nbsp;·&nbsp; Built for Kraken'X 2026 &nbsp;·&nbsp;
+<div style='text-align:center;padding:2rem 0 0.5rem 0;
+            font-family:IBM Plex Mono,monospace;font-size:0.62rem;color:#0f2233;border-top:1px solid #0a1828;margin-top:2rem;'>
+    HealthSensex AI &nbsp;·&nbsp; Built for INDIA &nbsp;·&nbsp;
     Isolation Forest · Scikit-learn · Streamlit · SQLite<br>
     Synthetic data only — no real patient information used or stored.
 </div>
