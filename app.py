@@ -637,24 +637,7 @@ elif page == "📊  Public Health Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
-    abbr_html = ""
-    for disease, abbr in list(DISEASE_ABBR.items())[:8]:
-        # Get case count from synthetic data
-        count = len(df[df.Disease_Type==disease]) if disease in df.Disease_Type.values else 0
-        abbr_html += f"""
-        <div style="background:#07111e;border:1px solid #0f2233;border-radius:6px;
-                    padding:0.7rem 1rem;display:flex;align-items:center;justify-content:space-between;">
-            <div>
-                <span style="font-family:'IBM Plex Mono',monospace;font-size:0.95rem;
-                             color:#d4830a;font-weight:600;">{abbr}</span>
-                <span style="font-size:0.82rem;color:#7a9ab8;margin-left:0.8rem;">{disease}</span>
-            </div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#2a4a6a;">
-                {count:,} records
-            </span>
-        </div>
-        """
-   cols_ab = st.columns(2)
+    cols_ab = st.columns(2)
     for idx, (disease, abbr) in enumerate(list(DISEASE_ABBR.items())[:8]):
         count = len(df[df.Disease_Type==disease]) if disease in df.Disease_Type.values else 0
         with cols_ab[idx % 2]:
