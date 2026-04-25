@@ -762,14 +762,14 @@ elif page == "🔒  Govt Official Portal":
 
         pwd = st.text_input("Enter Access Code", type="password", placeholder="••••••••")
         if st.button("AUTHENTICATE →", use_container_width=True):
-            if pwd in ["gov2026", "goven125", "government", "modi"]:   # demo password
+            if pwd in ["gov2024", "yogesh123", "member2", "member3"]:
                 st.session_state.govt_authed = True
                 st.rerun()
             else:
                 st.error("⚠️ Invalid access code. This attempt has been logged.")
 
-       st.markdown(f"""
-        <div style="font-size:0.65rem;color:#1a3050;margin-top:1.2rem;font-family:IBM Plex Mono;">
+        st.markdown("""
+                <div style="font-size:0.65rem;color:#1a3050;margin-top:1.2rem;font-family:IBM Plex Mono;">
                     All access attempts are logged
                 </div>
             </div>
