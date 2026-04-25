@@ -219,7 +219,7 @@ def render_header(subtitle=""):
                 animation: blink 2s infinite;
             ">● LIVE SYSTEM</div>
             <div style="font-size: 0.65rem; color: #2a4a6a; margin-top: 6px; font-family: IBM Plex Mono;">
-                {datetime.now().strftime('%d %b %Y  %H:%M IST')}
+                {(datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime('%d %b %Y  %H:%M IST')}
             </div>
         </div>
     </div>
@@ -762,7 +762,7 @@ elif page == "🔒  Govt Official Portal":
 
         pwd = st.text_input("Enter Access Code", type="password", placeholder="••••••••")
         if st.button("AUTHENTICATE →", use_container_width=True):
-            if pwd == "gov2024":   # demo password
+            if pwd in ["gov2026", "goven125", "government", "modi"]:   # demo password
                 st.session_state.govt_authed = True
                 st.rerun()
             else:
