@@ -69,7 +69,14 @@ def init_db():
 init_db()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# GLOBAL CSS — Government portal aesthetic, deep navy + saffron + white
+# IST TIME — no external library needed, pure timedelta
+# ─────────────────────────────────────────────────────────────────────────────
+
+def get_ist_now():
+    return datetime.utcnow() + timedelta(hours=5, minutes=30)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GLOBAL CSS — sidebar fixed to always show dark theme
 # ─────────────────────────────────────────────────────────────────────────────
 
 st.markdown("""
@@ -82,20 +89,29 @@ html, body, [class*="css"] {
     color: #d4dce8;
 }
 
-/* Sidebar */
+/* ── Sidebar forced dark ── */
 [data-testid="stSidebar"] {
     background: #070d18 !important;
-    border-right: 1px solid #0f1e30;
+    border-right: 2px solid #d4830a !important;
 }
-[data-testid="stSidebar"] .stRadio label {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.88rem;
-    letter-spacing: 0.04em;
-    color: #7a9ab8;
-    padding: 6px 0;
+[data-testid="stSidebar"] * {
+    color: #a8c0d8 !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
 }
-[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] input:checked + div {
-    border-color: #d4830a !important;
+[data-testid="stSidebar"] .stRadio label,
+[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label p {
+    font-size: 0.9rem !important;
+    color: #a8c0d8 !important;
+    padding: 6px 0 !important;
+}
+[data-testid="stSidebar"] .stRadio > label > div > p {
+    color: #d4830a !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.15em !important;
+    font-weight: 600 !important;
+}
+[data-testid="stSidebar"] hr {
+    border-color: #0f2233 !important;
 }
 
 /* Input fields */
@@ -180,6 +196,7 @@ h1,h2,h3,h4 { font-family: 'Source Serif 4', serif !important; }
 # ─────────────────────────────────────────────────────────────────────────────
 
 def render_header(subtitle=""):
+    ist_now = get_ist_now()
     st.markdown(f"""
     <div style="
         background: linear-gradient(135deg, #070d18 0%, #0a1628 60%, #07111e 100%);
@@ -219,7 +236,7 @@ def render_header(subtitle=""):
                 animation: blink 2s infinite;
             ">● LIVE SYSTEM</div>
             <div style="font-size: 0.65rem; color: #2a4a6a; margin-top: 6px; font-family: IBM Plex Mono;">
-                {(datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime('%d %b %Y  %H:%M IST')}
+                {ist_now.strftime('%d %b %Y  %H:%M IST')}
             </div>
         </div>
     </div>
@@ -241,10 +258,14 @@ INDIA_STATES = [
     "Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"
 ]
 
+# ─────────────────────────────────────────────────────────────────────────────
+# DISEASE ABBR — Cardiac → GBS (Guillain-Barré), Orthopedic → Influenza
+# ─────────────────────────────────────────────────────────────────────────────
+
 DISEASE_ABBR = {
     "Dengue": "DEN", "Tuberculosis": "TB", "Malaria": "MAL",
-    "Typhoid": "TYP", "COVID-19": "COV", "Cardiac": "CAR",
-    "Orthopedic": "ORT", "Cancer": "CAN", "Cholera": "CHL",
+    "Typhoid": "TYP", "COVID-19": "COV", "GBS (Guillain-Barré)": "GBS",
+    "Influenza": "FLU", "Cancer": "CAN", "Cholera": "CHL",
     "Pneumonia": "PNE", "Hepatitis B": "HEP-B", "HIV/AIDS": "HIV",
     "Chikungunya": "CHK", "Japanese Encephalitis": "JE", "Leptospirosis": "LEP"
 }
@@ -261,7 +282,9 @@ def generate_data(seed=42):
     date_range  = pd.date_range("2024-01-01", "2024-12-31", freq="D")
     hosp_ids    = [f"HOSP-{str(i).zfill(3)}" for i in range(1, N_HOSPITALS+1)]
     dr_ids      = [f"DR-{str(i).zfill(4)}" for i in range(1, N_DOCTORS+1)]
-    diseases    = list(DISEASE_ABBR.keys())[:8]
+    # Cardiac replaced by GBS (Guillain-Barré), Orthopedic replaced by Influenza
+    diseases    = ["Dengue", "Tuberculosis", "Malaria", "Typhoid",
+                   "COVID-19", "GBS (Guillain-Barré)", "Influenza", "Cancer"]
     states      = ["Maharashtra","Delhi","Karnataka","Tamil Nadu","Uttar Pradesh",
                    "Gujarat","West Bengal","Rajasthan","Kerala","Telangana",
                    "Punjab","Madhya Pradesh"]
@@ -333,7 +356,7 @@ with st.sidebar:
         <div style="font-family:'Source Serif 4',serif;font-size:1.1rem;color:#d4830a;font-weight:700;">
             HealthSensex
         </div>
-        <div style="font-size:0.65rem;color:#2a4a6a;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">
+        <div style="font-size:0.65rem;color:#4a7aaa;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">
             National Health Portal
         </div>
     </div>
@@ -348,7 +371,7 @@ with st.sidebar:
 
     st.markdown("""
     <hr style="border:none;border-top:1px solid #0f2233;margin:1rem 0 0.5rem 0;">
-    <div style="font-size:0.62rem;color:#1a3050;font-family:IBM Plex Mono;line-height:2;">
+    <div style="font-size:0.62rem;color:#3a6a9a;font-family:IBM Plex Mono;line-height:2;">
     DATA SOURCE: Synthetic (Demo)<br>
     ABDM SYNC: Simulated<br>
     RECORDS: ~30,000+<br>
@@ -489,7 +512,7 @@ if page == "🏥  Hospital Registration":
                           hosp_type, state, district.strip(), pincode.strip(),
                           beds, email.strip(), phone.strip(), ms_name.strip()))
                     conn.commit()
-                    ref_id = f"HSX{datetime.now().strftime('%Y%m%d%H%M%S')}"
+                    ref_id = f"HSX{get_ist_now().strftime('%Y%m%d%H%M%S')}"
                     conn.close()
                     st.success(f"""
                     ✅ **Registration Submitted Successfully**
@@ -742,7 +765,9 @@ elif page == "📊  Public Health Dashboard":
 elif page == "🔒  Govt Official Portal":
     render_header("Government Official Access — Restricted")
 
-    # Simple password gate
+    # 4 valid passwords
+    VALID_PASSWORDS = {"gov2026", "goven125", "government", "modu"}
+
     if "govt_authed" not in st.session_state:
         st.session_state.govt_authed = False
 
@@ -762,7 +787,7 @@ elif page == "🔒  Govt Official Portal":
 
         pwd = st.text_input("Enter Access Code", type="password", placeholder="••••••••")
         if st.button("AUTHENTICATE →", use_container_width=True):
-            if pwd in ["gov2026", "goven125", "government", "modu"]:
+            if pwd in VALID_PASSWORDS:
                 st.session_state.govt_authed = True
                 st.rerun()
             else:
@@ -786,14 +811,15 @@ elif page == "🔒  Govt Official Portal":
                 st.session_state.govt_authed = False
                 st.rerun()
 
-        # ── Welcome banner ────────────────────────────────────────────────────
+        # ── Welcome banner — IST time ─────────────────────────────────────────
+        ist_now = get_ist_now()
         st.markdown(f"""
         <div style="background:#071a0e;border:1px solid #0f3a1e;border-radius:6px;
                     padding:0.9rem 1.4rem;margin-bottom:1.5rem;
                     display:flex;align-items:center;justify-content:space-between;">
             <span style="color:#16a34a;font-size:0.83rem;">
                 ✅ Authenticated · Official Portal Active ·
-                Access logged at {datetime.now().strftime('%H:%M IST')}
+                Access logged at {ist_now.strftime('%H:%M IST')}
             </span>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#0f3a1e;">
                 SESSION SECURED
@@ -960,7 +986,7 @@ elif page == "🔒  Govt Official Portal":
                     if st.button("✅ Mark as Verified"):
                         conn = get_conn()
                         conn.execute("UPDATE hospitals SET status='Verified', verified_at=? WHERE id=?",
-                                     (datetime.now().isoformat(), int(verify_id)))
+                                     (get_ist_now().isoformat(), int(verify_id)))
                         conn.execute("INSERT INTO audit_log (action,hospital_id,performed_by) VALUES (?,?,?)",
                                      ("VERIFIED", int(verify_id), "govt_official"))
                         conn.commit(); conn.close()
