@@ -89,15 +89,6 @@ html, body, [class*="css"] {
     color: #d4dce8;
 }
 
-/* ── Main content area dark background to match sidebar ── */
-.main, .block-container, [data-testid="stAppViewContainer"], 
-[data-testid="stAppViewBlockContainer"] {
-    background-color: #04080f !important;
-}
-[data-testid="stAppViewContainer"] > .main {
-    background-color: #04080f !important;
-}
-
 /* ── Sidebar forced dark ── */
 [data-testid="stSidebar"] {
     background: #070d18 !important;
