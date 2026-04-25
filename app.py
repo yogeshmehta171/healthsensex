@@ -768,9 +768,9 @@ elif page == "🔒  Govt Official Portal":
             else:
                 st.error("⚠️ Invalid access code. This attempt has been logged.")
 
-        st.markdown("""
-                <div style="font-size:0.65rem;color:#1a3050;margin-top:1.2rem;font-family:IBM Plex Mono;">
-                    DEMO CODE: gov2024 &nbsp;·&nbsp; All access attempts are logged
+       st.markdown(f"""
+        <div style="font-size:0.65rem;color:#1a3050;margin-top:1.2rem;font-family:IBM Plex Mono;">
+                    All access attempts are logged
                 </div>
             </div>
         </div>
