@@ -115,7 +115,7 @@ html, body, [class*="css"] {
     fill: #d4830a !important;
     color: #d4830a !important;
 }
-[data-testid="stTextInput"] input,
+[ data-testid="stTextInput"] input,
 [data-testid="stSelectbox"] select,
 [data-testid="stNumberInput"] input {
     background: #07111e !important;
